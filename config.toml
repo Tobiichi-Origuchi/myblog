@@ -118,8 +118,6 @@ show_repo = true
 links = [
 	{ name = "Links", menu = [
 		{ url = "@/blog/_index.md", name = "Blog" },
-		{ url = "@/demo/index.md", name = "Demo" },
-		{ url = "@/mods/index.md", name = "Mods" }
 	] }
 ]
 
@@ -128,8 +126,6 @@ links = [
 # Same as the nav ones.
 links = [
 	{ url = "@/blog/_index.md", name = "Blog" },
-	{ url = "@/demo/index.md", name = "Demo" },
-	{ url = "@/mods/index.md", name = "Mods" },
 ]
 # Social links in the footer.
 # Any URL-encoded SVG can be used as an icon.
