@@ -1,5 +1,5 @@
 title = "myblog"
-base_url = "https://tobiichi-origuchi.github.io/myblog"
+base_url = "https://blog.newmax.fun"
 compile_sass = true
 minify_html = true
 generate_feeds = true
