@@ -1,4 +1,4 @@
-title = "myblog"
+title = "Origuchi's Blog"
 base_url = "https://blog.newmax.fun"
 compile_sass = true
 minify_html = true
@@ -26,6 +26,12 @@ github_alerts = true
 [search]
 # index_format = "elasticlunr_json"
 index_format = "fuse_json"
+
+[languages.zh-Hans]
+title = "Origuchi's Blog"
+generate_feeds = true
+
+taxonomies = [{ name = "tags", feed = true }]
 
 [extra]
 # Which theme should be used by default (light/dark).
@@ -136,6 +142,7 @@ show_repo = true
 links = [
 	{ name = "Links", menu = [
 		{ url = "@/blog/_index.md", name = "Blog" },
+		{ url = "@/about/_index.md", name = "About" },
 	] }
 ]
 
@@ -144,6 +151,7 @@ links = [
 # Same as the nav ones.
 links = [
 	{ url = "@/blog/_index.md", name = "Blog" },
+	{ url = "@/about/_index.md", name = "About" },
 ]
 # Social links in the footer.
 # Any URL-encoded SVG can be used as an icon.
