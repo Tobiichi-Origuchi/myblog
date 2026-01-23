@@ -1,11 +1,15 @@
+theme = "duckquill"
+
 title = "Origuchi's Blog"
 base_url = "https://blog.newmax.fun"
+description = "Origuchi's Blog"
+
 compile_sass = true
 minify_html = true
 generate_feeds = true
+
 feed_filenames = ["rss.xml", "atom.xml"]
 build_search_index = true
-theme = "duckquill"
 author = "Origuchi"
 
 default_language = "en"
@@ -29,6 +33,7 @@ index_format = "fuse_json"
 
 [languages.zh-Hans]
 title = "Origuchi's Blog"
+description = "Origuchi's Blog"
 generate_feeds = true
 
 taxonomies = [{ name = "tags", feed = true }]
@@ -128,7 +133,7 @@ csp = [
 
 [extra.nav]
 # Whether to automatically hide nav when not hovered or focused
-auto_hide = true
+# auto_hide = true
 # Whether to show the Atom/RSS feed button in the nav
 show_feed = true
 # Whether to show the manual theme switcher in the nav
@@ -193,7 +198,7 @@ show_qr = true
 [extra.goatcounter]
 # Your GoatCounter server; goatcounter.com is used by default.
 #
-host = "goatcounter.com"
+# host = "goatcounter.com"
 #
 # Your GoatCounter username
 user = "origuchi"
