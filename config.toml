@@ -16,6 +16,7 @@ default_language = "en"
 
 taxonomies = [{ name = "tags", feed = true }]
 
+# Zola 0.21 and earlier versions
 # [markdown]
 # highlight_code = true
 # highlight_theme = "css"
@@ -27,6 +28,7 @@ taxonomies = [{ name = "tags", feed = true }]
 # bottom_footnotes = true
 # github_alerts = true
 
+# Zola 0.22
 [markdown.highlighting]
 light_theme = "github-light"
 dark_theme = "github-dark"
@@ -41,6 +43,7 @@ index_format = "fuse_json"
 title = "Origuchi's Blog"
 description = "Origuchi's Blog"
 generate_feeds = true
+build_search_index = true
 
 taxonomies = [{ name = "tags", feed = true }]
 
