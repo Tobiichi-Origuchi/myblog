@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+      <title>Origuchi&#x27;s Blog</title>
+      <link>https://blog.newmax.fun</link>
+      <description>Origuchi&#x27;s Blog</description>
+      <generator>Zola</generator>
+      <language>en</language>
+      <atom:link href="https://blog.newmax.fun/rss.xml" rel="self" type="application/rss+xml"/>
+      <lastBuildDate>Fri, 23 Jan 2026 00:00:00 +0000</lastBuildDate>
+      <item>
+          <title>Arch Linux base knowledge</title>
+          <pubDate>Fri, 23 Jan 2026 00:00:00 +0000</pubDate>
+          <author>Origuchi</author>
+          <link>https://blog.newmax.fun/blog/arch-base-knowledge/</link>
+          <guid>https://blog.newmax.fun/blog/arch-base-knowledge/</guid>
+          <description xml:base="https://blog.newmax.fun/blog/arch-base-knowledge/"></description>
+      </item>
+      <item>
+          <title>Arch Linux</title>
+          <pubDate>Fri, 23 Jan 2026 00:00:00 +0000</pubDate>
+          <author>Origuchi</author>
+          <link>https://blog.newmax.fun/blog/archlinux/</link>
+          <guid>https://blog.newmax.fun/blog/archlinux/</guid>
+          <description xml:base="https://blog.newmax.fun/blog/archlinux/">&lt;blockquote&gt;
+&lt;p&gt;&lt;a rel=&quot;external&quot; href=&quot;https:&#x2F;&#x2F;wiki.archlinux.org&#x2F;title&#x2F;Arch_Linux&quot;&gt;Arch Linux&lt;&#x2F;a&gt; is an independently developed, x86-64 general-purpose GNU&#x2F;Linux distribution that strives to provide the latest stable versions of most software by following a rolling release model.&lt;br &#x2F;&gt;
+The default installation is a minimal base system, configured by the user to only add what is purposely required.&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+</description>
+      </item>
+    </channel>
+</rss>

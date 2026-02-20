@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-Hans">
+    <title>Origuchi&#x27;s Blog</title>
+    <subtitle>Origuchi&#x27;s Blog</subtitle>
+    <link rel="self" type="application/atom+xml" href="https://blog.newmax.fun/zh-Hans/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://blog.newmax.fun"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-01-23T00:00:00+00:00</updated>
+    <id>https://blog.newmax.fun/zh-Hans/atom.xml</id>
+    <entry xml:lang="zh-Hans">
+        <title>Arch Linux 基础知识</title>
+        <published>2026-01-23T00:00:00+00:00</published>
+        <updated>2026-01-23T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            Origuchi
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://blog.newmax.fun/zh-Hans/blog/arch-base-knowledge/"/>
+        <id>https://blog.newmax.fun/zh-Hans/blog/arch-base-knowledge/</id>
+        
+        <content type="html" xml:base="https://blog.newmax.fun/zh-Hans/blog/arch-base-knowledge/">&lt;h2 id=&quot;1-shen-me-shi-linux-wei-shen-me-yao-yong-linux&quot;&gt;1. 什么是 Linux，为什么要用 Linux&lt;&#x2F;h2&gt;
+&lt;blockquote class=&quot;markdown-alert-tip&quot;&gt;
+	&lt;p&gt;你说的对，但是 Linux 是由 Linus Torvalds 牵头研发的一款全新开源类 Unix 操作系统内核。系统运行在一个被称作「一切皆文件」的底层逻辑中，在这里，被 Root 选中的人将被授予「Sudo 权限」，导引 Shell 指令之力。你将扮演一位名为「系统管理员」的神秘角色，在自由的编译中邂逅构建各异、包管理独特的发行版们，和他们一起击败依赖冲突，找回失散的配置文件。&lt;&#x2F;p&gt;
+
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;关于 Linux 是什么东西的具体介绍可以自己查看维基百科的 &lt;a rel=&quot;external&quot; href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Linux&quot;&gt;Linux&lt;&#x2F;a&gt; 页&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="zh-Hans">
+        <title>Arch Linux 安装教程</title>
+        <published>2026-01-23T00:00:00+00:00</published>
+        <updated>2026-01-23T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            Origuchi
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://blog.newmax.fun/zh-Hans/blog/archlinux/"/>
+        <id>https://blog.newmax.fun/zh-Hans/blog/archlinux/</id>
+        
+        <content type="html" xml:base="https://blog.newmax.fun/zh-Hans/blog/archlinux/">&lt;p&gt;本文记录本人 Arch Linux 的安装及调优的思路和过程，用于本人不小心玩坏系统时，快速重装恢复，同时也用作想要入坑 Arch Linux 的新手教程&lt;&#x2F;p&gt;
+&lt;p&gt;原本写这篇文章的打算是粗略地概括整个过程，只讲一些重点关心的点，后来想着写都写了，干脆写一个尽可能完整详细的指南，省的再去其他页面上去找&lt;&#x2F;p&gt;
+&lt;p&gt;由于知识相当浅薄，文中可能会包含一些错误，我会尽量保证正常按照我的记录安装和调优不会出现破坏性的问题，但是我也不能担保，如果观者有任何建议，恳请可以&lt;a href=&quot;mailto:tobiichioriguchi@gmail.com&quot;&gt;联系本人&lt;&#x2F;a&gt;，批评指正&lt;&#x2F;p&gt;
+&lt;p&gt;以下是本人使用的硬件信息：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Processors: 32 × AMD Ryzen 9 7940HX with Radeon Graphics&lt;&#x2F;li&gt;
+&lt;li&gt;Memory: 32 GiB of RAM (30.6 GiB usable)&lt;&#x2F;li&gt;
+&lt;li&gt;Graphics Processor 1: NVIDIA GeForce RTX 4060 Laptop GPU&lt;&#x2F;li&gt;
+&lt;li&gt;Graphics Processor 2: AMD Radeon 610M&lt;&#x2F;li&gt;
+&lt;li&gt;Manufacturer: ASUSTeK COMPUTER INC.&lt;&#x2F;li&gt;
+&lt;li&gt;Product Name: ASUS TUF Gaming A16 FA607PV_FA607PV&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;1-arch-based-fa-xing-ban-xuan-qu&quot;&gt;1. Arch-based 发行版选取&lt;&#x2F;h2&gt;
+&lt;p&gt;对于日常使用，本人推荐：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Arch Linux：神！&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a rel=&quot;external&quot; href=&quot;https:&#x2F;&#x2F;endeavouros.com&#x2F;&quot;&gt;EndeavourOS&lt;&#x2F;a&gt;：一个包含预配置和美化的 Arch 系统，本质上就是完全的 Arch Linux&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a rel=&quot;external&quot; href=&quot;https:&#x2F;&#x2F;cachyos.org&#x2F;&quot;&gt;CachyOS&lt;&#x2F;a&gt;：注重速度和优化的 Arch 系统，有专门优化编译的软件仓库，如 cachyos-znver4&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;同时，无特殊需求的情况下，本人反推荐：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a rel=&quot;external&quot; href=&quot;https:&#x2F;&#x2F;manjaro.org&#x2F;&quot;&gt;Manjaro&lt;&#x2F;a&gt;：史&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;2-yan-zheng-an-zhuang-jing-xiang-qian-ming&quot;&gt;2. 验证安装镜像签名&lt;&#x2F;h2&gt;
+&lt;p&gt;为了您的安全，强烈建议下载完镜像后第一时间验证签名，&lt;strong&gt;请务必避免安装未经验证的镜像到您的爱机上！&lt;&#x2F;strong&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;对应发行版的 ISO 下载页必然会有 Checksums and signatures 或类似的部分，具体验证方法不赘述，自己看教程（如 &lt;a rel=&quot;external&quot; href=&quot;https:&#x2F;&#x2F;archlinux.org&#x2F;download&#x2F;#checksums&quot;&gt;https:&#x2F;&#x2F;archlinux.org&#x2F;download&#x2F;#checksums&lt;&#x2F;a&gt;）&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;3-an-zhuang-jie-zhi&quot;&gt;3. 安装介质&lt;&#x2F;h2&gt;
+&lt;p&gt;你需要一个 U 盘，没有的话买一个，8g 完全够用&lt;&#x2F;p&gt;
+&lt;p&gt;然后安装 &lt;a rel=&quot;external&quot; href=&quot;https:&#x2F;&#x2F;www.ventoy.net&#x2F;cn&#x2F;index.html&quot;&gt;Ventoy&lt;&#x2F;a&gt;，安装教程看官网&lt;&#x2F;p&gt;
+&lt;p&gt;把下载且经过验证的 ISO 镜像复制到 U 盘里，大功告成&lt;&#x2F;p&gt;
+&lt;p&gt;如果你急须安装 Arch Linux，并且手头没有 U 盘，可以考虑：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;本地磁盘安装：勾选 Ventoy 中的 &lt;code&gt;配置选项 --&amp;gt; 显示所有设备&lt;&#x2F;code&gt;，&lt;strong&gt;需要特别注意的是，不管安装在U盘还是硬盘，都会重新分区、格式化，整个盘的数据都会被清除，请慎重操作&lt;&#x2F;strong&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;无损安装：&lt;a rel=&quot;external&quot; href=&quot;https:&#x2F;&#x2F;www.ventoy.net&#x2F;cn&#x2F;doc_non_destructive.html&quot;&gt;https:&#x2F;&#x2F;www.ventoy.net&#x2F;cn&#x2F;doc_non_destructive.html&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;然而上述方法只是权宜之计，最好有个 U 盘&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;4-live-huan-jing&quot;&gt;4. live 环境&lt;&#x2F;h2&gt;
+&lt;p&gt;根据主板不同，在开机时狂按 F1, F2, F4, F11, F12, Del, Tab 等按键（具体按键是什么需要自己去搜索自己主板的 BIOS&#x2F;UEFI 设置界面启动按键），然后在 BIOS&#x2F;UEFI 设置界面中关闭安全启动并将当前启动设备指向 Ventoy，启动 Ventoy 界面之后选择你要安装的 ISO 镜像启动 live 环境&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;5-qi-dong-guan-li-qi&quot;&gt;5. 启动管理器&lt;&#x2F;h2&gt;
+&lt;p&gt;主要的启动管理器有 systemd-boot、rEFInd、GRUB 和 Limine&lt;&#x2F;p&gt;
+&lt;p&gt;ArchWiki 有详细的&lt;a rel=&quot;external&quot; href=&quot;https:&#x2F;&#x2F;wiki.archlinux.org&#x2F;title&#x2F;Arch_boot_process#Boot_loader&quot;&gt;介绍&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;此处引用 CachyOS Wiki 的 &lt;a rel=&quot;external&quot; href=&quot;https:&#x2F;&#x2F;wiki.cachyos.org&#x2F;installation&#x2F;boot_managers&#x2F;&quot;&gt;boot_managers&lt;&#x2F;a&gt; 的 TL;DR 作一个大致介绍：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Choose GRUB if you need encrypted &#x2F;boot, BIOS compatibility, or want Btrfs snapshots with a stable, mature boot manager.&lt;&#x2F;li&gt;
+&lt;li&gt;Choose Limine if you want a modern bootloader with Btrfs snapshot integration out of the box, plus support for both BIOS and UEFI and Windows dual-boot (via limine-scan).&lt;&#x2F;li&gt;
+&lt;li&gt;Choose rEFInd if you want a polished graphical interface and automatic multi-boot detection on UEFI systems.&lt;&#x2F;li&gt;
+&lt;li&gt;Choose systemd-boot if you prefer the simplest setup and don’t require snapshots or advanced features. It’s also the most reliable fallback for MSI motherboards with UEFI issues.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;在我看来，没有特殊美化需求，或者 MSI 主板，直接选最稳妥，最简洁的 systemd-boot 就完事了&lt;&#x2F;p&gt;
+&lt;p&gt;如果需要集成 Btrfs 的快照功能，我推荐可以选 Limine。GRUB 比较笨重，而且默认样式不好看，需要手动安装主题美化；Limine 默认样式就很美观现代，而且很轻量，兼容性也更好&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;6-wen-jian-xi-tong&quot;&gt;6. 文件系统&lt;&#x2F;h2&gt;
+&lt;p&gt;见 ArchWiki 的 &lt;a rel=&quot;external&quot; href=&quot;https:&#x2F;&#x2F;wiki.archlinux.org&#x2F;title&#x2F;File_systems&quot;&gt;File systems&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;建立一个基础的知识就行了&lt;&#x2F;p&gt;
+&lt;p&gt;EFI 分区必须 FAT32，后面分区时会讲&lt;&#x2F;p&gt;
+&lt;p&gt;根分区我推荐：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;BTRFS：拥有许多实用功能（快照、压缩）&lt;&#x2F;li&gt;
+&lt;li&gt;EXT4：简单快速&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;其他还有很多很多种文件系统，我认为没有特殊需求，懒得看每个文件系统的特性的话直接无脑 EXT4 就 OK&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;7-zhuo-mian-huan-jing&quot;&gt;7. 桌面环境&lt;&#x2F;h2&gt;
+&lt;p&gt;选取完全取决于个人喜好&lt;&#x2F;p&gt;
+&lt;p&gt;虽然说是这么说，但是我还是推荐新手使用经典的 KDE Plasma 和 GNOME&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;KDE Plasma：操作逻辑类似 Windows，非常适合刚从 Windows 转来的 Linux 新手用户，他的配置非常简单且丰富&lt;&#x2F;li&gt;
+&lt;li&gt;GNOME操作逻辑类似 MacOS，喜欢 MacOS 可以试试这个，他的配置比较麻烦，而且非常碎片化，基本上没有自定义配置的空间，适合懒得配置，装好就用的人&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;其他还有两个桌面环境我认为可以选取&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Hyprland：平铺，适合大屏使用&lt;&#x2F;li&gt;
+&lt;li&gt;Niri：滚动平铺，适合小屏或者长屏使用&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;这两个桌面环境都能配置得相当漂亮，社区也有很多预设，但是我认为不适合新手，不然你会花费大量的时间来用于学习他的配置和交互逻辑，而不是专注于学习 Linux 系统本身&lt;&#x2F;p&gt;
+&lt;p&gt;熟悉 Linux 本身之后，完全可以尝试安装各种桌面环境，看哪个对自己胃口，Linux 系统非常自由，可以同时安装多个桌面环境，想启动哪个就启动哪个。我的推荐只是我个人的感觉，最终选取完全看个人喜好&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;8-an-zhuang-xi-tong&quot;&gt;8. 安装系统&lt;&#x2F;h2&gt;
+&lt;p&gt;上面只是开始安装前的准备，先考虑好，这步正式开始安装&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;8-1-shou-dong-an-zhuang&quot;&gt;8.1. 手动安装&lt;&#x2F;h3&gt;
+&lt;p&gt;Arch Linux 本身推荐手动安装，也有自动脚本 &lt;a rel=&quot;external&quot; href=&quot;https:&#x2F;&#x2F;wiki.archlinux.org&#x2F;title&#x2F;Archinstall&quot;&gt;archinstall&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;其他基于 Arch 的发行版大多都有 GUI 自动安装界面，当然也能尝试手动安装&lt;&#x2F;p&gt;
+&lt;p&gt;我的建议是 Arch Linux 手动安装，其他基于 Arch 的发行版直接 GUI 自动安装就行&lt;&#x2F;p&gt;
+&lt;p&gt;以下是基于 ArchWiki 的 &lt;a rel=&quot;external&quot; href=&quot;https:&#x2F;&#x2F;wiki.archlinux.org&#x2F;title&#x2F;Installation_guide&quot;&gt;Installation guide&lt;&#x2F;a&gt;，应该仔细 ArchWiki 的内容并学习安装，我的内容只是一些我的补充理解&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;8-1-1-lian-wang&quot;&gt;8.1.1. 联网&lt;&#x2F;h4&gt;
+&lt;p&gt;&lt;strong&gt;必须要有网络！&lt;&#x2F;strong&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;推荐有线连接，如果条件不允许再考虑无线连接&lt;&#x2F;p&gt;
+&lt;p&gt;无线连接方法见&lt;a rel=&quot;external&quot; href=&quot;https:&#x2F;&#x2F;wiki.archlinux.org&#x2F;title&#x2F;Iwd#iwctl&quot;&gt;此处&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;大部分现代网卡均在 Linux 系统上开箱即用，但是不排除一些老旧的网卡或其他特殊情况下，需要安装完系统后自行在驱动官网下载安装网卡驱动，甚至极端情况下还需要自行编译安装&lt;&#x2F;p&gt;
+&lt;p&gt;对于这种情况下，考虑使用手机的 USB 共享网络功能，完成安装后进入系统再安装网卡驱动&lt;&#x2F;p&gt;
+&lt;p&gt;最终还有一个 &lt;a rel=&quot;external&quot; href=&quot;https:&#x2F;&#x2F;wiki.archlinux.org&#x2F;title&#x2F;Offline_installation&quot;&gt;Offline installation&lt;&#x2F;a&gt;，但是如果你必须使用这个方法才能完成安装，表明你的硬件完全不适合安装 Arch Linux，前面的区域，换完硬件再来探索吧&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;8-1-2-geng-xin-shi-zhong&quot;&gt;8.1.2. 更新时钟&lt;&#x2F;h4&gt;
+&lt;pre class=&quot;giallo z-code&quot;&gt;&lt;code data-lang=&quot;shellscript&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-entity z-name&quot;&gt;timedatectl&lt;&#x2F;span&gt;&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;&lt;h4 id=&quot;8-1-3-fen-qu-bing-ge-shi-hua&quot;&gt;8.1.3. 分区并格式化&lt;&#x2F;h4&gt;
+&lt;p&gt;正常情况下，都是使用的 UEFI&#x2F;GPT，除非你的机器原本安装的是 DOS&#x2F;Windows XP 等非常原始的系统，才说明你可能使用的是 BIOS&#x2F;MBR&lt;&#x2F;p&gt;
+&lt;p&gt;EFI 分区可以参考 CachyOS 的 &lt;a rel=&quot;external&quot; href=&quot;https:&#x2F;&#x2F;wiki.cachyos.org&#x2F;installation&#x2F;installation_on_root&#x2F;&quot;&gt;安装指南&lt;&#x2F;a&gt;，写的非常详细&lt;&#x2F;p&gt;
+&lt;p&gt;总结而言如下：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;systemd-boot &amp;amp; rEFInd：
+&lt;ul&gt;
+&lt;li&gt;挂载点：&#x2F;boot&lt;&#x2F;li&gt;
+&lt;li&gt;大小：2048 MiB&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Limine：
+&lt;ul&gt;
+&lt;li&gt;挂载点：&#x2F;boot&lt;&#x2F;li&gt;
+&lt;li&gt;大小：4192 MiB&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;GRUB：
+&lt;ul&gt;
+&lt;li&gt;挂载点：&#x2F;boot&#x2F;efi&lt;&#x2F;li&gt;
+&lt;li&gt;大小：最少 100 MiB（如果要双系统，推荐 1024 MiB 以上）&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;EFI 分区必须格式化为 FAT32 文件系统&lt;&#x2F;p&gt;
+&lt;p&gt;根分区见 1.6. 文件系统 所述&lt;&#x2F;p&gt;
+&lt;p&gt;如果需要休眠功能，则还需要创建一个 [SWAP] 分区，或者也可以安装完系统之后创建一个 Swap file，具体方法见 ArchWiki 的 &lt;a rel=&quot;external&quot; href=&quot;https:&#x2F;&#x2F;wiki.archlinux.org&#x2F;title&#x2F;Swap&quot;&gt;Swap&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;[SWAP] 分区或者 Swap file 的大小一般推荐是物理内存的 1.5-2 倍&lt;&#x2F;p&gt;
+&lt;p&gt;ArchWiki 因为是面向所有人的一个普适安装过程，所以他只讲了必须的 EFI 分区和根分区&lt;&#x2F;p&gt;
+&lt;p&gt;然而事实上，Linux 的所有分区都能单独创建并挂载，比较实用的就是 &lt;code&gt;&#x2F;home&lt;&#x2F;code&gt; 分区单独创建并挂载，这个分区存放你的个人文件，万一玩坏了系统（这是一个非常常见的事情），只需要重新安装根分区就行，可以保留 &lt;code&gt;&#x2F;home&lt;&#x2F;code&gt; 分区下的个人文件&lt;&#x2F;p&gt;
+&lt;p&gt;顺带提一句，BTRFS 文件系统最好不要单独创建并挂载分区，因为他本身有快照功能，玩坏了可以一键恢复，而且分开挂载分区就无法享受 BTRFS 强大的自动分配子卷大小的功能，在 BTRFS 文件系统中所有分区都以子卷的形式挂载在根分区 &lt;code&gt;&#x2F;@&lt;&#x2F;code&gt; 下，例如 &lt;code&gt;&#x2F;@home&lt;&#x2F;code&gt; ，只要所有分区的总大小不超过整个根分区的大小，就不会出现磁盘空间不足的问题，如果单独创建一个 &lt;code&gt;&#x2F;home&lt;&#x2F;code&gt; 分区，他就只能是你创建时已分配的那个大小，这种情况就违反了 BTRFS 的设计初衷了&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;8-1-4-gua-zai-fen-qu&quot;&gt;8.1.4. 挂载分区&lt;&#x2F;h4&gt;
+&lt;h4 id=&quot;8-1-5&quot;&gt;8.1.5.&lt;&#x2F;h4&gt;
+</content>
+        
+    </entry>
+</feed>
