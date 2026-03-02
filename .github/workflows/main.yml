@@ -26,4 +26,9 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           VPS_IP: ${{ secrets.VPS_IP }}
           VPS_USER: ${{ secrets.VPS_USER }}
-        run: rsync -avz --delete public/ $VPS_USER@$VPS_IP:/var/www/zola-site/
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H $VPS_IP >> ~/.ssh/known_hosts
+          rsync -avz --delete public/ $VPS_USER@$VPS_IP:/var/www/zola-site/
