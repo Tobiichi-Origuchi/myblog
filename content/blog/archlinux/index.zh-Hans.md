@@ -133,10 +133,6 @@ Arch Linux 本身推荐手动安装，也有自动脚本 [archinstall](https://w
 
 #### 8.1.2. 更新时钟
 
-```bash
-timedatectl
-```
-
 #### 8.1.3. 分区并格式化
 
 正常情况下，都是使用的 UEFI/GPT，除非你的机器原本安装的是 DOS/Windows XP 等非常原始的系统，才说明你可能使用的是 BIOS/MBR
