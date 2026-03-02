@@ -30,10 +30,8 @@ taxonomies = [{ name = "tags", feed = true }]
 
 # Zola 0.22
 [markdown.highlighting]
-light_theme = "github-light"
-dark_theme = "github-dark"
-style = "class"
-error_on_missing_language = true
+light_theme = "solarized-light"
+dark_theme = "solarized-dark"
 
 [search]
 # index_format = "elasticlunr_json"

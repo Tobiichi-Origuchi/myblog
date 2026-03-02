@@ -133,7 +133,7 @@ Arch Linux 本身推荐手动安装，也有自动脚本 [archinstall](https://w
 
 #### 8.1.2. 更新时钟
 
-```sh
+```bash
 timedatectl
 ```
 
