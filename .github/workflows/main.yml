@@ -1,4 +1,4 @@
-name: Zola on GitHub Pages
+name: Zola on VPS
 
 on:
   push:
@@ -13,9 +13,15 @@ jobs:
     steps:
       - name: Checkout main
         uses: actions/checkout@v4
-      - name: Build and deploy
-        uses: shalzz/zola-deploy-action@master
+      - name: Install Zola
+        uses: taiki-e/install-action@v2
+        with:
+          tool: zola@0.22.1
+      - name: Build Zola site
+        run: zola build
+      - name: Deploy to VPS
         env:
-          BUILD_DIR: .
-          PAGES_BRANCH: gh-pages
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          VPS_IP: ${{ secrets.VPS_IP }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+        run: rsync -avz --delete public/ $VPS_USER@$VPS_IP:/var/www/zola-site/
