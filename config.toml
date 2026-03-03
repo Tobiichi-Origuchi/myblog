@@ -1,7 +1,7 @@
 theme = "duckquill"
 
 title = "Origuchi's Blog"
-base_url = "https://blog.newmax.fun"
+base_url = "https://blog.origuchi.qzz.io"
 description = "Origuchi's Blog"
 
 compile_sass = true
