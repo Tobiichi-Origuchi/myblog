@@ -242,9 +242,9 @@ show_timestamp = true
 # Any icon name from https://simpleicons.org can be used.
 socials = [
   { url = "https://bsky.social", icon = "bluesky" },
-  { url = "https://joinmastodon.org", icon = "mastodon" },
+  { url = "https://mastodon.social/@origuchi", icon = "mastodon" },
   { url = "https://pixelfed.org", icon = "pixelfed" },
-  { url = "https://codeberg.org", icon = "codeberg" },
+  { url = "https://codeberg.org/tobiichioriguchi", icon = "codeberg" },
   { url = "https://signal.org", icon = "signal" },
 ]
 
