@@ -38,8 +38,8 @@ style = "class"
 light_theme = "monokai-pro-light"
 dark_theme = "monokai-pro"
 extra_themes = [
-  "giallo/themes/monokai-pro-light.json",
-  "giallo/themes/monokai-pro.json",
+  "themes/ametrine/giallo/themes/monokai-pro-light.json",
+  "themes/ametrine/giallo/themes/monokai-pro.json",
 ]
 
 [search]
@@ -50,7 +50,6 @@ index_format = "elasticlunr_json"
 title = "Origuchi's Blog"
 description = "Origuchi's Blog"
 generate_feeds = true
-build_search_index = true
 
 taxonomies = [
   { name = "tags", feed = true, paginate_by = 10 },
@@ -202,7 +201,6 @@ icon = "apple-touch-icon.png"
 # letters of the link name will be used instead.
 # Any icon name from https://phosphoricons.com can be used.
 links = [
-  { url = "@/demo/index.md", name = "Demo", icon = "info" },
   { url = "@/blog/_index.md", name = "Blog", icon = "newspaper" },
   { name = "Random 🦄", category = [
     { url = "https://example.org", name = "Eggman", icon = "egg" },
@@ -216,7 +214,6 @@ links = [
 # Translations for the [extra.nav]. Available variables are:
 # - links
 links = [
-  { url = "@/demo/index.md", name = "Demo", icon = "info" },
   { url = "@/blog/_index.md", name = "Blog", icon = "newspaper" },
   { name = "随机 🦄", category = [
     { url = "https://example.org", name = "Eggman", icon = "egg" },
