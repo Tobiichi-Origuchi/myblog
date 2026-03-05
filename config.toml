@@ -50,6 +50,7 @@ index_format = "elasticlunr_json"
 title = "Origuchi's Blog"
 description = "Origuchi's Blog"
 generate_feeds = true
+feed_filenames = ["atom.xml", "rss.xml"]
 
 taxonomies = [
   { name = "tags", feed = true, paginate_by = 10 },
@@ -241,11 +242,11 @@ show_timestamp = true
 # Social links in the footer.
 # Any icon name from https://simpleicons.org can be used.
 socials = [
-  { url = "https://bsky.social", icon = "bluesky" },
-  { url = "https://mastodon.social/@origuchi", icon = "mastodon" },
-  { url = "https://pixelfed.org", icon = "pixelfed" },
+  { url = "https://github.com/Tobiichi-Origuchi", icon = "github" },
   { url = "https://codeberg.org/tobiichioriguchi", icon = "codeberg" },
-  { url = "https://signal.org", icon = "signal" },
+  { url = "https://t.me/tobiichioriguchi_3d7253072f40407", icon = "telegram" },
+  { url = "https://mastodon.social/@origuchi", icon = "mastodon" },
+  { url = "https://x.com/Origuchi12", icon = "x" },
 ]
 
 [extra.footer.zh-Hans]
@@ -267,7 +268,7 @@ copyright = "© Origuchi, 2025-$YEAR"
 # Values can be overridden in the front-matter, e.g.
 # for multi-author blogs or guest posts.
 
-host = "social.silicon.moe"
+host = "mastodon.social"
 user = "origuchi"
 
 [extra.analytics]
