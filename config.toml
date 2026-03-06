@@ -3,23 +3,12 @@ theme = "ametrine"
 title = "Origuchi's Blog"
 base_url = "https://blog.origuchi.qzz.io"
 description = "Origuchi's Blog"
-
 compile_sass = true
 minify_html = true
 build_search_index = true
 author = "Origuchi"
 generate_feeds = true
 feed_filenames = ["atom.xml", "rss.xml"]
-
-# Based on https://github.com/welpo/tabi
-#
-# To translate the entire theme, there must be a file with the same ISO 639-1
-# or BCP 47 language code in the "i18n" directory of your site or the Ametrine
-# theme, for example, "i18n/fr.toml" for French or "i18n/zh-Hans.toml" for
-# Simplified Chinese, otherwise the theme will be in English.
-#
-# ISO 639-1: https://localizely.com/iso-639-1-list/
-# BCP 47: https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry
 default_language = "en"
 
 taxonomies = [
@@ -43,7 +32,6 @@ extra_themes = [
 ]
 
 [search]
-# Accepted values are "elasticlunr_javascript" and "elasticlunr_json"
 index_format = "elasticlunr_json"
 
 [languages.zh-Hans]
@@ -51,84 +39,33 @@ title = "Origuchi's Blog"
 description = "Origuchi's Blog"
 generate_feeds = true
 feed_filenames = ["atom.xml", "rss.xml"]
-
 taxonomies = [
   { name = "tags", feed = true, paginate_by = 10 },
   { name = "categories", feed = true },
 ]
 
 [extra]
-# Usage of an icon is heavily adviced. In case if none is provided, a question
-# mark icon will be used instead.
-# Any icon name from https://phosphoricons.com can be used.
-# Color attribute accepts the same values as extra.accent_color, which can be
-# found below.
 categories = [
   { name = "Archived", description = "Posts that have been archived due to their age.", color = "purple", icon = "box-arrow-down" },
   { name = "Featured", description = "Posts that are somewhat decently written.", color = "yellow", icon = "star" },
   { name = "Hot", description = "Posts that did numbers compared to others.", color = "red", icon = "fire" },
   { name = "Test", description = "Categories can be set and customized entirely from config, woo-hoo!", color = "green", icon = "feather" },
 ]
-
-# Accent color used by Ametrine.
-#
-# Has several modes:
-# - Use one of the presets (applies to both light and dark modes):
-#   accent_color = "<red, orange, yellow, green, blue, purple>"
-# - Use a single HSL color for both light and dark modes:
-#   accent_color = "hsl(270, 50%, 60%)"
-# - Use separate colors for light and dark modes (it's possible to mix both
-# presets and HSL colors):
-#   Presets:    accent_color = ["red", "blue"]
-#   Preset + HSL:   accent_color = ["red", "hsl(270, 50%, 60%)"]
-#   HSLs: accent_color = ["hsl(270, 50%, 60%)", "hsl(27.567572, 87%, 67%)"]
-#
-# Custom colors must be in HSL format. You can also define your own color
-# presets by creating an "accent_presets.toml" file under the "./data/"
-# directory with custom preset names and colors. Use the one located in Ametrine
-# as a reference.
-accent_color = ["purple", "orange"]
-
-# Additional CSS styles; expects them to be in the "./static/" directory.
-# If you are using Sass these will be generated there automatically.
-#
-# styles = [
-#   "YOUR_STYLE.css",
-#   "ALSO_YOUR_STYLE.css"
-# ]
-#
-# Additional JavaScript scripts; expects them to be in the "./static/"
-# directory.
-#
-# scripts = [
-#   "YOUR_SCRIPT.js",
-#   "ALSO_YOUR_SCRIPT.js"
-# ]
-
-# Path to the page that is being considered "Home", e.g. for the "Go Home"
-# button on 404.
-# home_url = "@/home/index.md"
-# URL to website's source code.
+accent_color = ["blue", "blue"]
 source_url = "https://github.com/Tobiichi-Origuchi/myblog"
-# URL to website's issue tracker.
 issues_url = "https://github.com/Tobiichi-Origuchi/myblog/issues/new"
-# Whether to show estimated read time in posts.
 show_reading_time = true
-# Whether to show a copy button on code blocks with a programming lang set
 copy_button = true
-# Custom separator used throughout the theme.
-# separator = "•"
-# Custom separator used in website's title and article metadata.
-# title_separator = "-"
+show_backlinks = true
 date_format = "%d %B %Y"
 date_format_long = "%d %B %Y, %R (%Z)"
-date_locale = "en_IE"
-timezone = "Europe/Moscow"
+date_locale = "en_US"
+timezone = "Asia/Shanghai"
 show_comments_qr = true
-# Whether to use Content Security Policy.
-# Keep in mind that although this can potentially increase security,
-# it can break some things, in which case you will need to set a custom policy.
 csp = [
+  { directive = "font-src", domains = [
+    "'self'",
+  ] },
   { directive = "img-src", domains = [
     "'self'",
     "https:",
@@ -163,44 +100,23 @@ csp = [
 ]
 
 [extra.zh-Hans]
-# Translations for the [extra]. Available variables are:
-# - categories
-# - date_format
-# - date_format_long
-# - date_locale
 categories = [
   { name = "归档", description = "因发布时间较久而被归档的文章。", color = "purple", icon = "box-arrow-down" },
   { name = "精选", description = "写得相对不错的优质文章。", color = "yellow", icon = "star" },
   { name = "热门", description = "热度远超其他内容的文章。", color = "red", icon = "fire" },
   { name = "测试", description = "分类完全可以通过配置文件进行自定义！", color = "green", icon = "feather" },
 ]
-
 date_format = "%Y年%m月%d日"
 date_format_long = "%Y年%m月%d日 %R (%Z)"
 date_locale = "zh_CN"
 
 [extra.meta]
-# Variables bellow accept either "true" or a filename.
-# Favicon can also accept an emoji instead of a filename.
-# File extension are being respected, so e.g. if favicon has .gif extension
-# it'll be treated as an animated one.
-# If set to "true" these will use the default filenames:
-# favicon          = favicon.png
-# apple_touch_icon = apple-touch-icon.png
-# card             = card.png
 favicon = true
 apple_touch_icon = true
 card = true
 
 [extra.nav]
-# When set to true and [extra.fediverse] is defined, it will use avatar from
-# said Mastodon account, otherwise it'll fallback to apple_touch_icon specified
-# in [extra.meta] or its default value.
-# Also accepts arbitrary filenames and URLs for custom images.
 icon = "apple-touch-icon.png"
-# Usage of an icon is heavily adviced. In case if none is provided, first two
-# letters of the link name will be used instead.
-# Any icon name from https://phosphoricons.com can be used.
 links = [
   { url = "@/blog/_index.md", name = "Blog", icon = "newspaper" },
   { name = "Random 🦄", category = [
@@ -212,8 +128,6 @@ links = [
 ]
 
 [extra.nav.zh-Hans]
-# Translations for the [extra.nav]. Available variables are:
-# - links
 links = [
   { url = "@/blog/_index.md", name = "Blog", icon = "newspaper" },
   { name = "随机 🦄", category = [
@@ -225,22 +139,10 @@ links = [
 ]
 
 [extra.footer]
-# Set to false to disable copyright text, or set to anything else to use it as
-# the copyright text (Markdown supported).
-# $YEAR will be replaced with current year.
 copyright = "© Origuchi, 2025-$YEAR"
-# Whether to show "Powered by Zola and Ametrine"
 show_powered_by = true
-# Whether to show link to website's source code
 show_source = true
-# Whether to show Fediring (https://fediring.net). Only works if
-# [extra.fediverse] is filled out and you're part of the webring.
-# show_fediring = true
-# Whether to show timestamp of the last build. Uses UTC timezone unless your own
-# is set under extra.timezone
 show_timestamp = true
-# Social links in the footer.
-# Any icon name from https://simpleicons.org can be used.
 socials = [
   { url = "https://github.com/Tobiichi-Origuchi", icon = "github" },
   { url = "https://codeberg.org/tobiichioriguchi", icon = "codeberg" },
@@ -250,54 +152,20 @@ socials = [
 ]
 
 [extra.footer.zh-Hans]
-# Translations for the [extra.footer]. Available variables are:
-# - copyright
 copyright = "© Origuchi, 2025-$YEAR"
 
 [extra.fediverse]
-# Fediverse integration.
-# Used for:
-# - Commenting
-# - Custom emoji shortcode
-# - Website verification
-# - Author attribution
-#
-# Mastodon-powered commenting is based on
-# https://carlschwan.eu/2020/12/29/adding-comments-to-your-static-blog-with-mastodon/
-#
-# Values can be overridden in the front-matter, e.g.
-# for multi-author blogs or guest posts.
-
 host = "mastodon.social"
 user = "origuchi"
+show_qr = true
 
 [extra.analytics]
-# Specify which analytics service you want to use.
-# Supported options: "goatcounter", "umami", and "plausible".
 service = "umami"
-
-# Unique identifier for tracking.
-# For GoatCounter, this is the code you choose during signup.
-# For Umami, this is the website ID.
-# For Plausible, this is the domain name (e.g. "example.com").
-# Note: Leave this field empty if you're self-hosting GoatCounter.
 id = "7073664b-05ac-47ab-8953-481a00a08dae"
-
-# Optional: Specify the URL for self-hosted analytics instances.
-# For GoatCounter: Base URL like "https://stats.example.com"
-# For Umami: Base URL like "https://umami.example.com"
-# For Plausible: Base URL like "https://plausible.example.com"
-# Leave this field empty if you're using the service's default hosting.
-# self_hosted_url = "https://stats.daudix.one"
-
-# Optional: For Umami, enable this option to respect users' Do Not Track (DNT)
-# settings.
+self_hosted_url = "https://stats.origuchi.qzz.io"
 do_not_track = false
 
 [extra.debug]
-# Display outlines around all elements for debugging purposes
 layout = false
-# Don't load any styles for debugging purposes
 no_styles = false
-# Skip loading of Mastodon emojis used via the emoji.html shortcode
 no_emojis = false
