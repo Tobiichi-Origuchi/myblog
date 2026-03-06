@@ -161,7 +161,7 @@ show_qr = true
 
 [extra.analytics]
 service = "umami"
-id = "7073664b-05ac-47ab-8953-481a00a08dae"
+id = "e500936a-fa6e-494d-94b0-20be95993b87"
 self_hosted_url = "https://stats.origuchi.qzz.io"
 do_not_track = false
 
