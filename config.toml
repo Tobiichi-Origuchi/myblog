@@ -43,7 +43,7 @@ taxonomies = [
   { name = "tags", feed = true, paginate_by = 10 },
   { name = "categories", feed = true },
 ]
-build_search_index = true
+# build_search_index = true
 
 [extra]
 categories = [
