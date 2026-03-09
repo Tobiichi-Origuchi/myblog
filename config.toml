@@ -32,7 +32,7 @@ extra_themes = [
 ]
 
 [search]
-index_format = "elasticlunr_json"
+index_format = "fuse_json"
 
 [languages.zh-Hans]
 title = "Origuchi's Blog"
@@ -43,6 +43,7 @@ taxonomies = [
   { name = "tags", feed = true, paginate_by = 10 },
   { name = "categories", feed = true },
 ]
+build_search_index = true
 
 [extra]
 categories = [
