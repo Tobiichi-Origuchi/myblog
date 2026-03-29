@@ -77,6 +77,8 @@ csp = [
   ] },
   { directive = "script-src", domains = [
     "cloud.umami.is",
+    "static.cloudflareinsights.com",
+    "stats.origuchi.qzz.io",
   ] },
   { directive = "style-src", domains = [
     "'self'",
