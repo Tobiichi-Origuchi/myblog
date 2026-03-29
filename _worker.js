@@ -13,11 +13,11 @@ export default {
         }
       });
     const csp = `
-      font-src 'self';
-      img-src 'self' https: data:;
-      media-src 'self' https:;
-      script-src 'self' 'nonce-${nonce}' static.cloudflareinsights.com stats.origuchi.qzz.io;
-      style-src 'self' 'unsafe-inline';
+      font-src 'self' https://blog.origuchi.uk;
+      img-src 'self' https: data: https://blog.origuchi.uk;
+      media-src 'self' https: https://blog.origuchi.uk;
+      script-src 'self' 'nonce-${nonce}' https://static.cloudflareinsights.com https://stats.origuchi.qzz.io https://blog.origuchi.uk;
+      style-src 'self' 'unsafe-inline' https://blog.origuchi.uk;
       frame-src https://player.vimeo.com https://www.youtube-nocookie.com https://vmst.io;
       connect-src *.umami.dev cloud.umami.is;
       base-uri 'none';
