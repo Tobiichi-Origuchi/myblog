@@ -13,7 +13,8 @@ export const onRequest: PagesFunction = async (context) => {
   response.headers.set(
     'Content-Security-Policy',
     `default-src 'self'; ` +
-    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic' https://stats.origuchi.qzz.io https://static.cloudflareinsights.com; ` +
+    `script-src 'nonce-${nonce}' 'strict-dynamic'; ` +
+    `script-src-elem 'self' 'nonce-${nonce}' https://stats.origuchi.qzz.io https://static.cloudflareinsights.com; ` +
     `connect-src 'self' https://stats.origuchi.qzz.io https://cloudflareinsights.com; ` +
     `style-src 'self' 'unsafe-inline'; ` +
     `img-src 'self' data: https:; ` +
