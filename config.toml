@@ -62,40 +62,6 @@ date_format_long = "%d %B %Y, %R (%Z)"
 date_locale = "en_US"
 timezone = "Asia/Shanghai"
 show_comments_qr = true
-csp = [
-  { directive = "img-src", domains = [
-    "'self'",
-    "https:",
-    "data:",
-  ] },
-  { directive = "media-src", domains = [
-    "'self'",
-    "https:",
-  ] },
-  { directive = "script-src", domains = [
-    "https://static.cloudflareinsights.com",
-    "https://stats.origuchi.qzz.io",
-  ] },
-  { directive = "style-src", domains = [
-    "'self'",
-    "'unsafe-inline'",
-  ] },
-  { directive = "frame-src", domains = [
-    "https://player.vimeo.com",
-    "https://www.youtube-nocookie.com",
-    "https://vmst.io",
-  ] },
-  { directive = "connect-src", domains = [
-    "*.umami.dev",
-    "cloud.umami.is",
-  ] },
-  { directive = "base-uri", domains = [
-    "'none'",
-  ] },
-  { directive = "form-action", domains = [
-    "'none'",
-  ] },
-]
 
 [extra.zh-Hans]
 categories = [
