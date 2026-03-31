@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "include": [
+    "/*"
+  ],
+  "exclude": [
+    "/*.gif",
+    "/*.png",
+    "/*.xml",
+    "/*.js",
+    "/CNAME",
+    "/fonts/*",
+    "/*.woff2",
+    "/*.css",
+    "/*.svg",
+    "/processed_images/*",
+    "/*.webp",
+    "/*.jpg",
+    "/*.txt",
+    "/*.json",
+    "/weather/*",
+    "/zh-Hans/*.xml",
+    "/*.ico",
+    "/*.jpeg",
+    "/*.woff"
+  ]
+}
