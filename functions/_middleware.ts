@@ -1,25 +1,20 @@
 export const onRequest: PagesFunction = async (context) => {
-  const array = new Uint8Array(16);
-  crypto.getRandomValues(array);
-  const nonce = btoa(String.fromCharCode(...array))
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-    .replace(/=/g, '');
   const response = await context.next();
   const contentType = response.headers.get('content-type') || '';
   if (!contentType.includes('text/html')) {
     return response;
   }
-  response.headers.set(
+  const nonce = crypto.randomUUID().replace(/-/g, '');
+  const newResponse = new Response(response.body, response);
+  newResponse.headers.set(
     'Content-Security-Policy',
     `default-src 'self'; ` +
-    `script-src 'nonce-${nonce}' 'strict-dynamic'; ` +
-    `script-src-elem 'self' 'nonce-${nonce}' https://stats.origuchi.qzz.io https://static.cloudflareinsights.com; ` +
+    `script-src 'self' 'nonce-${nonce}' https://stats.origuchi.qzz.io https://static.cloudflareinsights.com; ` +
     `connect-src 'self' https://stats.origuchi.qzz.io https://cloudflareinsights.com; ` +
     `style-src 'self' 'unsafe-inline'; ` +
     `img-src 'self' data: https:; ` +
-    `media-src 'self' https:;` +
-    `frame-src 'none';` +
+    `media-src 'self' https:; ` +
+    `frame-src 'self' https://challenges.cloudflare.com; ` +
     `font-src 'self'; ` +
     `object-src 'none'; ` +
     `base-uri 'none'; ` +
@@ -27,5 +22,5 @@ export const onRequest: PagesFunction = async (context) => {
     `frame-ancestors 'none'; ` +
     `upgrade-insecure-requests;`
   );
-  return response;
+  return newResponse;
 };
