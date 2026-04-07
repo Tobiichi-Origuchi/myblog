@@ -118,17 +118,6 @@ socials = [
 [extra.footer.zh-Hans]
 copyright = "© Origuchi, 2025-$YEAR"
 
-[extra.fediverse]
-host = "mastodon.social"
-user = "origuchi"
-show_qr = true
-
-[extra.analytics]
-service = "umami"
-id = "e500936a-fa6e-494d-94b0-20be95993b87"
-self_hosted_url = "https://stats.origuchi.qzz.io"
-do_not_track = false
-
 [extra.debug]
 layout = false
 no_styles = false
