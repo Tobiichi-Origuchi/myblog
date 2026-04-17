@@ -51,7 +51,7 @@ categories = [
   { name = "Hot", description = "Posts that did numbers compared to others.", color = "red", icon = "fire" },
   { name = "Test", description = "Categories can be set and customized entirely from config, woo-hoo!", color = "green", icon = "feather" },
 ]
-accent_color = ["blue", "blue"]
+accent_color = ["hsl(240, 3.23%, 12.16%)", "hsl(240, 33.33%, 94.12%)"]
 source_url = "https://github.com/Tobiichi-Origuchi/myblog"
 issues_url = "https://github.com/Tobiichi-Origuchi/myblog/issues/new"
 show_reading_time = true
@@ -73,7 +73,7 @@ strict = "0"
 reactions_enabled = "1"
 emit_metadata = "0"
 input_position = "top"
-theme = "preferred_color_scheme"
+theme = "noborder_gray"
 data-loading = "lazy"
 
 [extra.zh-Hans]

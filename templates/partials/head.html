@@ -28,10 +28,6 @@
     <meta name="theme-color" content="{{ theme_color }}" />
     {%- endif %}
 
-    {%- if config.extra.fediverse.host and config.extra.fediverse.user %}
-    <meta name="fediverse:creator" content="@{{ config.extra.fediverse.user }}@{{ config.extra.fediverse.host }}" />
-    {%- endif %}
-
     {%- if page.extra.meta.card %}
     {%- set card = get_url(path=page.path ~ page.extra.meta.card, cachebust=true) %}
     {%- elif section.extra.meta.card %}
@@ -70,10 +66,6 @@
 
     <title>{% include "partials/title.html" %}</title>
     <link rel="canonical" href="{{ current_url | default(value='/') | safe }}" />
-
-    {%- if config.extra.fediverse.host and config.extra.fediverse.user %}
-    <link rel="me" href="https://{{ config.extra.fediverse.host }}/@{{ config.extra.fediverse.user }}" />
-    {%- endif %}
 
     {%- if page.extra.meta.favicon %}
     {%- set favicon = page.path ~ page.extra.meta.favicon %}
@@ -232,10 +224,6 @@
     {%- if page.extra.music and page.extra.music | length > 1
     or section.extra.music and section.extra.music | length > 1 %}
     {%- set scripts = scripts | concat(with=["paginator.js"]) %}
-    {%- endif %}
-
-    {%- if page.extra.fediverse.id %}
-    {%- set scripts = scripts | concat(with=["comments.js"]) %}
     {%- endif %}
 
     {%- if config.extra.scripts %}
