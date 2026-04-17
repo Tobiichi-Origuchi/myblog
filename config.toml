@@ -63,6 +63,19 @@ date_locale = "en_US"
 timezone = "Asia/Shanghai"
 show_comments_qr = true
 
+[extra.giscus]
+repo = "Tobiichi-Origuchi/myblog"
+repo_id = "R_kgDOQ7Hzqg"
+category = "Announcements"
+category_id = "DIC_kwDOQ7Hzqs4C7DWL"
+mapping = "pathname"
+strict = "0"
+reactions_enabled = "1"
+emit_metadata = "0"
+input_position = "top"
+theme = "preferred_color_scheme"
+data-loading = "lazy"
+
 [extra.zh-Hans]
 categories = [
   { name = "归档", description = "因发布时间较久而被归档的文章。", color = "purple", icon = "box-arrow-down" },
