@@ -8,12 +8,12 @@ export const onRequest: PagesFunction = async (context: { next: () => any; }) =>
   const newResponse = new HTMLRewriter()
     .on("script", {
       element(el: { setAttribute: (arg0: string, arg1: string) => void; }): void {
-        el.setAttribute("nonce", nonce);
+        el.setAttribute("nonce", "nonce-" + nonce);
       },
     })
     .on("style", {
       element(el: { setAttribute: (arg0: string, arg1: string) => void; }): void {
-        el.setAttribute("nonce", nonce);
+        el.setAttribute("nonce", "nonce-" + nonce);
       },
     })
     .transform(response);
