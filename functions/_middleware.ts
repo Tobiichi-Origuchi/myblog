@@ -1,3 +1,23 @@
+class InlineStyleExtractor {
+  constructor(nonce: string) {
+    this.nonce = nonce;
+    this.counter = 0;
+  }
+  element(element: HTMLElement) {
+    const inlineStyle = element.getAttribute('style');
+    if (inlineStyle) {
+      this.counter++;
+      const uniqueClassName = `cf-extracted-style-${Date.now()}-${this.counter}`;
+      element.removeAttribute('style');
+      const existingClass = element.getAttribute('class') || '';
+      const newClass = existingClass ? `${existingClass} ${uniqueClassName}` : uniqueClassName;
+      element.setAttribute('class', newClass);
+      const styleTag = `<style nonce="${this.nonce}">.${uniqueClassName} { ${inlineStyle} }</style>`;
+      element.after(styleTag, { html: true });
+    }
+  }
+}
+
 export const onRequest: PagesFunction = async (context: { next: () => any; }) => {
   const response = await context.next();
   const contentType = response.headers.get('content-type') || '';
@@ -16,6 +36,7 @@ export const onRequest: PagesFunction = async (context: { next: () => any; }) =>
         el.setAttribute("nonce", nonce);
       },
     })
+    .on("[style]", new InlineStyleExtractor(nonce))
     .transform(response);
   newResponse.headers.set(
     'Content-Security-Policy',
