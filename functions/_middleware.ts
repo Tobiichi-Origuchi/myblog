@@ -41,7 +41,7 @@ export const onRequest: PagesFunction = async (context: { next: () => any; }) =>
   newResponse.headers.set(
     'Content-Security-Policy',
     `default-src 'self'; ` +
-    `script-src 'self' 'strict-dynamic' 'nonce-${nonce}'; ` +
+    `script-src 'self' 'strict-dynamic' 'nonce-${nonce}' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='; ` +
     `connect-src 'self' https://giscus.app https://cloudflareinsights.com; ` +
     `style-src 'self' 'nonce-${nonce}'; ` +
     `img-src 'self' data: https:; ` +
