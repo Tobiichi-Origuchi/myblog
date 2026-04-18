@@ -38,7 +38,7 @@ document.getElementById("114514").innerHTML = decodeURIComponent(window.location
 ```
 Assume this webpage runs at `http://[]/homo.html`. I just need to construct a url like this: `http://[]/homo.html#<img src=null onerrer="alert('114514')">`, and induce the user to click this url. The website will impressively issue a very stinky "114514" alert. That's very serious.
 
-This means that the code `<img src=null onerrer="alert('114514')">` used to execute inline code is injected directly into the DOM tree of the webpage browsed by the user without the developer knowing anything at all.
+This means that the code `<img src=null onerrer="alert('114514')">` used to execute inline script is injected directly into the DOM tree of the webpage browsed by the user without the developer knowing anything at all.
 
 There is also a situation that is even harder to guard against, which is a supply chain attack (and it seems supply chain attack incidents have become commonplace these days).
 
@@ -50,29 +50,29 @@ document.getElementById('114514').appendChild(paragraph);
 ```
 Instantly, that familiar number appears in the alert again.
 
-In fact, it is not difficult to find that if inline code is allowed to be executed, it means that any Javascript code may be executed, and your CSP completely loses its original protective meaning.
+In fact, it is not difficult to find that if inline script is allowed to be executed, it means that any Javascript code may be executed, and your CSP completely loses its original protective meaning.
 
 In short, absolutely do not turn on `unsafe-inline` in `script-src`. This thing has 'unsafe' written so obviously, it just means it doesn't want you to enable it.
 
 ## Countermeasures
 
-Then someone might say, what if I insist on writing inline code? My comment is that unless under certain special circumstances (I have little development experience and indeed haven't encountered this situation), don't write it if you can avoid it.
+Then someone might say, what if I insist on writing inline script? My comment is that unless under certain special circumstances (I have little development experience and indeed haven't encountered this situation), don't write it if you can avoid it.
 
 There are of course countermeasures, one is hash, and the other is nonce, which is what this article mainly introduces.
 
 ### hash
 
-This method is very simple but also very safe. Just write the hash value of the inline code that is allowed to be executed in your CSP, for example:
+This method is very simple but also very safe. Just write the hash value of the inline script that is allowed to be executed in your CSP, for example:
 ```http
 Content-Security-Policy: script-src 'self' 'sha256-hashOfYourScript'
 ```
-But this method has a limitation, which is that your inline code must be fixed and unchanging. If you want to change it, you need to recalculate the hash and update the CSP settings.
+But this method has a limitation, which is that your inline script must be fixed and unchanging. If you want to change it, you need to recalculate the hash and update the CSP settings.
 
 ### nonce
 
 What is nonce? The literal translation means "one-time".
 
-It is actually a tag. You tag a piece of your inline code with it, like:
+It is actually a tag. You tag a piece of your inline script with it, like:
 ```html
 <script nonce="nonce-rAnd0m">
   alert("114514");
@@ -88,7 +88,7 @@ But the problem comes, suppose this tag I set is obtained by an attacker, and th
 
 At this time, the meaning of why a nonce is called a nonce appears. This tag must be one-time, discarded after use, and a new one must be generated the next time it is used again. This completely avoids the replay attack mentioned above.
 
-Then our goal is very clear. We now need to generate a completely random number for the user every time they visit, which is random enough that it cannot be guessed before generation. Tag the allowed inline code with this random number, and then modify the CSP response header to allow inline code with this random number tag to be executed.
+Then our goal is very clear. We now need to generate a completely random number for the user every time they visit, which is random enough that it cannot be guessed before generation. Tag the allowed inline script with this random number, and then modify the CSP response header to allow inline script with this random number tag to be executed.
 
 Now take a static page hosted by cloudflare as an example to briefly demonstrate the implementation method.
 
@@ -128,9 +128,9 @@ Briefly summarize what this function does:
 4. If it is html, use `randomUUID()` to generate a random number
 5. Modify the response header and return the new response
 
-Then the question comes again, how to write the nonce value to the inline code?
+Then the question comes again, how to write the nonce value to the inline script?
 
-Indeed, this is a problem. If it is the inline code you write on the page yourself, cloudflare naturally will not be so smart as to scan the places with inline code for you and write the nonce value for you.
+Indeed, this is a problem. If it is the inline script you write on the page yourself, cloudflare naturally will not be so smart as to scan the places with inline script for you and write the nonce value for you.
 
 So in this case, you can use HTMLRewriter to dynamically inject the nonce value into all script tags in the response. You can refer to this: <https://developers.cloudflare.com/workers/examples/spa-shell/#add-csp-nonces>
 ```typescript
@@ -142,13 +142,13 @@ const newResponse = new HTMLRewriter()
   })
   .transform(response);
 ```
-However, in fact, what I mainly want to talk about is another situation, and also the reason for writing this article, which is to deal with the problem that the inline code dynamically injected by cloudflare's JavaScript Detections function will be blocked by CSP.
+However, in fact, what I mainly want to talk about is another situation, and also the reason for writing this article, which is to deal with the problem that the inline script dynamically injected by cloudflare's JavaScript Detections function will be blocked by CSP.
 
 According to the documentation: <https://developers.cloudflare.com/cloudflare-challenges/challenge-types/javascript-detections/>
 
 > If your CSP uses a `nonce` for script tags, Cloudflare will add these nonces to the scripts it injects by parsing your CSP response header.
 
-This passage illustrates very good news, which is that as long as you ensure that the CSP in your response header contains a nonce value, cloudflare will automatically assign this nonce value to the inline code it injects for you.
+This passage illustrates very good news, which is that as long as you ensure that the CSP in your response header contains a nonce value, cloudflare will automatically assign this nonce value to the inline script it injects for you.
 
 In other words, the `functions/_middleware.ts` we created above is already enough, because isn't its function exactly to regenerate a new response with a CSP containing a nonce value?
 
