@@ -51,7 +51,7 @@ categories = [
   { name = "Hot", description = "Posts that did numbers compared to others.", color = "red", icon = "fire" },
   { name = "Test", description = "Categories can be set and customized entirely from config, woo-hoo!", color = "green", icon = "feather" },
 ]
-accent_color = ["hsl(240, 3.23%, 12.16%)", "hsl(240, 33.33%, 94.12%)"]
+accent_color = ["hsl(216.35, 100%, 73.14%)", "hsl(214.47, 100%, 81.57%)"]
 source_url = "https://github.com/Tobiichi-Origuchi/myblog"
 issues_url = "https://github.com/Tobiichi-Origuchi/myblog/issues/new"
 show_reading_time = true
