@@ -5,24 +5,13 @@ export const onRequest: PagesFunction = async (context: { next: () => any; }) =>
     return response;
   }
   const nonce = crypto.randomUUID().replace(/-/g, '');
-  const newResponse = new HTMLRewriter()
-    .on("script", {
-      element(el: { setAttribute: (arg0: string, arg1: string) => void; }): void {
-        el.setAttribute("nonce", "nonce-" + nonce);
-      },
-    })
-    .on("style", {
-      element(el: { setAttribute: (arg0: string, arg1: string) => void; }): void {
-        el.setAttribute("nonce", "nonce-" + nonce);
-      },
-    })
-    .transform(response);
+  const newResponse = new Response(response.body, response);
   newResponse.headers.set(
     'Content-Security-Policy',
     `default-src 'self'; ` +
     `script-src 'self' 'nonce-${nonce}' https://giscus.app https://static.cloudflareinsights.com; ` +
     `connect-src 'self' https://giscus.app https://cloudflareinsights.com; ` +
-    `style-src 'self' 'nonce-${nonce}' https://giscus.app; ` +
+    `style-src 'self' 'unsafe-inline' https://giscus.app; ` +
     `img-src 'self' data: https:; ` +
     `media-src 'self' https:; ` +
     `frame-src 'self' https://giscus.app https://challenges.cloudflare.com; ` +
