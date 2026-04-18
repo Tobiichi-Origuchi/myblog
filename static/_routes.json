@@ -20,8 +20,7 @@
     "/*.json",
     "/weather/*",
     "/zh-Hans/*.xml",
-    "/*.ico",
-    "/*.jpeg",
-    "/*.woff"
+    "/tags/*/*.xml",
+    "/zh-Hans/tags/*/*.xml"
   ]
 }
