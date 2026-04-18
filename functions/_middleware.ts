@@ -1,11 +1,22 @@
-export const onRequest: PagesFunction = async (context) => {
+export const onRequest: PagesFunction = async (context: { next: () => any; }) => {
   const response = await context.next();
   const contentType = response.headers.get('content-type') || '';
   if (!contentType.includes('text/html')) {
     return response;
   }
   const nonce = crypto.randomUUID().replace(/-/g, '');
-  const newResponse = new Response(response.body, response);
+  const newResponse = new HTMLRewriter()
+    .on("script", {
+      element(el: { setAttribute: (arg0: string, arg1: string) => void; }): void {
+        el.setAttribute("nonce", nonce);
+      },
+    })
+    .on("style", {
+      element(el: { setAttribute: (arg0: string, arg1: string) => void; }): void {
+        el.setAttribute("nonce", nonce);
+      },
+    })
+    .transform(response);
   newResponse.headers.set(
     'Content-Security-Policy',
     `default-src 'self'; ` +
