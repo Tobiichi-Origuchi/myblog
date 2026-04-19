@@ -21,6 +21,7 @@ smart_punctuation = true
 bottom_footnotes = true
 external_links_class = "external"
 github_alerts = true
+lazy_async_image = true
 
 [markdown.highlighting]
 style = "class"

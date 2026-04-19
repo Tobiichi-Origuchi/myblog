@@ -9,7 +9,7 @@ export const onRequest: PagesFunction = async (context: { next: () => any; }) =>
   newResponse.headers.set(
     'Content-Security-Policy',
     `default-src 'self'; ` +
-    `script-src 'self' 'nonce-${nonce}' https://cloudflareinsights.com; ` +
+    `script-src 'self' 'nonce-${nonce}' https://giscus.app https://cloudflareinsights.com; ` +
     `connect-src 'self' https://giscus.app https://cloudflareinsights.com; ` +
     `style-src 'self' 'unsafe-inline' https://giscus.app; ` +
     `img-src 'self' data: https:; ` +
