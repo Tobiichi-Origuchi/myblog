@@ -82,7 +82,7 @@ tValue=1776749845277 ，首先查看了日志，这个 tValue 字段每次都会
 测试了一下这个值改变对于请求内容是否有变化，貌似是没有的，那就是说它目前无关紧要
 
 然后关于这个链接本身返回的内容，大致结构如下：
-```json
+```xml
 <config>
 <AppVersion>0.0</AppVersion>
 <ResVersion>1.0.3</ResVersion>

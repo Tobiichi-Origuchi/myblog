@@ -85,7 +85,7 @@ I asked Gemini, and it immediately knew this is just a UTC timestamp. I checked 
 I tested whether changing this value affects the requested content, and it seems it doesn't. That means it's currently irrelevant.
 
 Then, regarding the content returned by the link itself, the general structure is as follows:
-```json
+```xml
 <config>
 <AppVersion>0.0</AppVersion>
 <ResVersion>1.0.3</ResVersion>
