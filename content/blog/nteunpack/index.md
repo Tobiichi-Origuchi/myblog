@@ -607,7 +607,6 @@ A 12-character string. Padding it with 0 to 16 bytes, we get the final AES-Key a
 
 So far, the AES-Key and AES-IV have been obtained through simple reverse engineering. Now its validity needs to be tested.
 ```python
-import os
 from Crypto.Cipher import AES
 
 def unpack(file_path):
@@ -636,7 +635,6 @@ Opening the decrypted files, it was all gibberish. Checking their file header he
 
 So, let's add a layer of decompression:
 ```python
-import os
 import zlib
 from Crypto.Cipher import AES
 

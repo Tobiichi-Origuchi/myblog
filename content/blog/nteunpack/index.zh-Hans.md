@@ -604,7 +604,6 @@ void **__fastcall sub_18013F720(size_t *a1)
 
 目前已经通过简单的逆向得到了 AES-Key 和 AES-IV，现在需要测试其有效性
 ```python
-import os
 from Crypto.Cipher import AES
 
 def unpack(file_path):
@@ -633,7 +632,6 @@ if __name__ == "__main__":
 
 那就再加一层解压：
 ```python
-import os
 import zlib
 from Crypto.Cipher import AES
 
