@@ -3,6 +3,7 @@ authors = ["Origuchi"]
 title = "NTE ResList Unpack"
 description = "A record of my entire process of unpacking NTE's reslist."
 date = 2026-04-21
+updated = 2026-04-27
 [taxonomies]
 tags = ["Game", "Reverse engineering"]
 +++
@@ -602,6 +603,9 @@ Go to the "Memory" window, press `Ctrl+G` to search for `PatcherSDK_x64.dll+667C
 1289@Patcher....
 ```
 A 12-character string. Padding it with 0 to 16 bytes, we get the final AES-Key as `1289@Patcher0000`.
+
+> [!NOTE]
+> Updated on 2026-04-27, the AES-Key for the Global version is `3000001@Patcher0`, obtained using the exact same method.
 
 ## Testing
 

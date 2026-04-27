@@ -3,6 +3,7 @@ authors = ["Origuchi"]
 title = "NTE ResList Unpack"
 description = "A record of my entire process of unpacking NTE's reslist."
 date = 2026-04-21
+updated = 2026-04-27
 [taxonomies]
 tags = ["Game", "Reverse engineering"]
 +++
@@ -599,6 +600,9 @@ void **__fastcall sub_18013F720(size_t *a1)
 1289@Patcher....
 ```
 十二位的字符串，使用 0 补齐至 16 位，得到最终的 AES-Key 为 `1289@Patcher0000`
+
+> [!NOTE]
+> 更新于 2026-04-27，国际服的 AES-Key 为 `3000001@Patcher0`，使用完全相同的方法获得
 
 ## 测试
 
