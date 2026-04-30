@@ -1,6 +1,6 @@
 {%- if config.extra.giscus.repo and config.extra.giscus.repo_id -%}
 <section id="comments">
-    <h2>{{ macros_translate::translate(key="comments", default="Comments", language_strings=language_strings) }}</h2>
+    <h2>{{ macros::translate(key="comments", default="Comments", language_strings=language_strings) }}</h2>
     <div class="giscus"></div>
     <script src="https://giscus.app/client.js" data-repo="{{ config.extra.giscus.repo }}"
         data-repo-id="{{ config.extra.giscus.repo_id }}"
@@ -17,7 +17,7 @@
         </script>
     <div id="comments-wrapper">
         <noscript>
-            <p>{{ macros_translate::translate(key="comments_noscript", default="Loading comments relies on JavaScript.
+            <p>{{ macros::translate(key="comments_noscript", default="Loading comments relies on JavaScript.
                 Try enabling JavaScript and reloading, or visit the original post on Mastodon.",
                 language_strings=language_strings) }}</p>
         </noscript>
