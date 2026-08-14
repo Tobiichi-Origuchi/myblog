@@ -8,61 +8,58 @@ updated = 2026-04-27
 tags = ["Game", "Reverse engineering"]
 +++
 
-> [!NOTE]
-> This page was translated with the assistance of Gemini; the [Chinese version](https://blog.origuchi.uk/zh-Hans/blog/nteunpack/) shall prevail.
+## 前言
 
-## Foreword
+第一次尝试逆向，而且是靠 Gemini 的支持完成的，本文记录一下过程，防止以后忘了
 
-This is my first attempt at reverse engineering, and it was completed with the support of Gemini. This article documents the process to prevent me from forgetting it later.
+## 开始
 
-## Getting Started
+[Neverness to Everness](https://en.wikipedia.org/wiki/Neverness_to_Everness)，后面简称 NTE，将于 4 月 23 日于中国服公测，4 月 29 日于国际服公测
 
-[Neverness to Everness](https://en.wikipedia.org/wiki/Neverness_to_Everness), hereafter referred to as NTE, will start its open beta on the CN server on April 23, and on the Global server on April 29.
+今天，也就是 4 月 21 号，国服已经开放了预下载，我自然也是第一时间下载了
 
-Today, April 21st, the CN server opened for pre-download, so naturally, I downloaded it right away.
+结果一打开启动器就给我喂了依托大的，直接下了 1 个多 G 的资源，不用想也知道是 CEF 了，为了不让我的系统 chromium 喜加一，我觉得或许可以开发一款第三方的启动器
 
-However, upon opening the launcher, I was fed a huge pile of crap. It directly downloaded over 1 GB of resources. Without a second thought, I knew it was CEF. To prevent my system from getting yet another Chromium instance, I thought perhaps I could develop a third-party launcher.
+## 游戏资源
 
-## Game Resources
+首先我需要获得游戏资源的下载直链，这个过程很简单，网络连接的日志必然是会被启动器记录的，稍微读取一下就好了
 
-First, I need to get the direct download links for the game resources. This process is very simple; the network connection logs are inevitably recorded by the launcher, so I just need to read them briefly.
-
-First, check the time, then start the game launcher and click "start download". After downloading for about half a minute, close the launcher, and start looking for the logs:
+首先看下时间，然后启动游戏启动器并点击开始下载，大概下载半分钟关闭启动器，然后开始找日志：
 ```bash
 rg '2026-04-21 13:37'
 ```
-The output is very long so I won't paste it all. Here is the key information:
+输出很长就不贴了，以下是关键的信息：
 ```bash
 NTELauncher/UserData/Log/Patcher/log/patcher_updater.log
 ...
 NTELauncher/UserData/Log/Patcher/log/publish_PC.log
 ...
-1449:2026-04-21 13:37:25.275 [tid:532] [DEBUG] @[PatcherSDKImpl::Init] initInfo(updateUrl: https://yhcdn1.wmupd.com/clientRes, backupUpdateUrl: https://yhcdn2.wmupd.com/clientRes) // CDN location found
+1449:2026-04-21 13:37:25.275 [tid:532] [DEBUG] @[PatcherSDKImpl::Init] initInfo(updateUrl: https://yhcdn1.wmupd.com/clientRes, backupUpdateUrl: https://yhcdn2.wmupd.com/clientRes) // CDN 的位置知道了
 ...
-1465:2026-04-21 13:37:25.277 [tid:1348] [TRACE] @[ResourceDownloadFileTask::AddFile] https://yhcdn1.wmupd.com/clientRes/publish_PC/Version/Windows/config.xml?tValue=1776749845277 // Requested an xml obviously related to game resources here, will check later
+1465:2026-04-21 13:37:25.277 [tid:1348] [TRACE] @[ResourceDownloadFileTask::AddFile] https://yhcdn1.wmupd.com/clientRes/publish_PC/Version/Windows/config.xml?tValue=1776749845277 // 这里请求了一个显然和游戏资源有关的 xml，之后检查
 ...
-1523:2026-04-21 13:37:30.722 [tid:708] [DEBUG] @[PatcherSDK::SafeConfigFileRead] Z:/home/origuchi/.local/share/Steam/steamapps/common/nte launcher/Neverness To Everness/NTELauncher/UserData/Patcher/PatcherSDK/ResList.xml // Read ResList.xml from local cache
+1523:2026-04-21 13:37:30.722 [tid:708] [DEBUG] @[PatcherSDK::SafeConfigFileRead] Z:/home/origuchi/.local/share/Steam/steamapps/common/nte launcher/Neverness To Everness/NTELauncher/UserData/Patcher/PatcherSDK/ResList.xml // 从本地缓存中读取到了 ResList.xml
 ...
 1631:2026-04-21 13:37:30.958 [tid:724] [TRACE] @[ResourceDownloadFileTask::AddPackFiles] publish_PC/Res/5/547d51e659c8d4ea6ce79ab5c386ded6.113831224.
 1632:2026-04-21 13:37:30.958 [tid:724] [TRACE] @[ResourceDownloadFileTask::AddPackFiles] publish_PC/Res/7/70aecfd573afbea554dcd7f68798a6f5.241488016.
-1633:2026-04-21 13:37:30.958 [tid:724] [TRACE] @[ResourceDownloadFileTask::AddPackFiles] publish_PC/Res/a/ab190b1bd80ce94e62e18537e09914dd.248182892. // Everything below here is repeated AddPackFiles
+1633:2026-04-21 13:37:30.958 [tid:724] [TRACE] @[ResourceDownloadFileTask::AddPackFiles] publish_PC/Res/a/ab190b1bd80ce94e62e18537e09914dd.248182892. // 这里下面全是类似的 AddPackFiles 重复
 ...
 1868:2026-04-21 13:37:30.981 [tid:740] [DEBUG] @[ResourceDownloadClient::Request] request: https://yhcdn1.wmupd.com/clientRes/publish_PC/Res/5/547d51e659c8d4ea6ce79ab5c386ded6.113831224, 49197400-113831223 64633824 bytes
-1869:2026-04-21 13:37:30.981 [tid:740] [DEBUG] @[HttpClient_Curl::Setup] request https://yhcdn1.wmupd.com/clientRes/publish_PC/Res/5/547d51e659c8d4ea6ce79ab5c386ded6.113831224 // Network request starts downloading
+1869:2026-04-21 13:37:30.981 [tid:740] [DEBUG] @[HttpClient_Curl::Setup] request https://yhcdn1.wmupd.com/clientRes/publish_PC/Res/5/547d51e659c8d4ea6ce79ab5c386ded6.113831224 // 请求网络开始下载
 ```
-From the logs, the following points can be observed:
-1. `PatchSDK` is the tool used to request game resource downloads.
-2. Game resources are named in this very strange format: `publish_PC/Res/5/547d51e659c8d4ea6ce79ab5c386ded6.113831224`.
-3. `ResList.xml` was read from the local cache, so it is currently unknown where it was downloaded from.
-4. `https://yhcdn1.wmupd.com/clientRes/publish_PC/Version/Windows/config.xml?tValue=1776749845277` is closely related to the game resource location, but the value of `tValue` cannot be inferred yet.
+从日志中可以看出以下几点：
+1. PatchSDK 是请求游戏资源下载的工具
+2. 游戏资源以 publish_PC/Res/5/547d51e659c8d4ea6ce79ab5c386ded6.113831224 这种非常奇怪的格式命名
+3. ResList.xml 从本地读取了缓存，所以现在还不知道他是从哪个地方下载的
+4. https://yhcdn1.wmupd.com/clientRes/publish_PC/Version/Windows/config.xml?tValue=1776749845277 是和游戏资源位置紧密相关的，但是 tValue 的值暂时无法推测
 
-Now, let's solve them one by one.
+现在一个一个解决
 
 ### ResList.xml
 
-First is the issue of the `ResList.xml` local cache. This is definitely because I downloaded it once during a previous launch and it had already been requested, so the cache wasn't deleted beforehand during later testing, causing it to read directly from the cache.
+首先是 ResList.xml 本地缓存的问题，这个肯定是因为我之前启动的时候下载了一次，已经请求过了，所以在后来测试时没有预先删除缓存，然后他直接从缓存读取了
 
-Searching the logs:
+搜索一下日志：
 ```bash
 rg -i 'reslist'
 UserData/Log/Patcher/log/publish_PC.log
@@ -71,21 +68,21 @@ UserData/Log/Patcher/log/publish_PC.log
 93:2026-04-21 12:32:59.540 [tid:1276] [DEBUG] @[ResourceDownloadClient::Request] request: https://yhcdn2.wmupd.com/clientRes/publish_PC/Version/Windows/version/1.0.3/ResList.bin.zip
 ...
 ```
-OK, found it. Then I downloaded this zip file and extracted it to find two files: `lastdiff.bin` and `ResList.bin`. They are two binary `.bin` files, not the final `.xml` files.
+OK，找到了，然后下载这个 zip 文件，解压得到了两个文件 `lastdiff.bin` 和 `ResList.bin`，是两个 bin 二进制文件，而不是最后的 xml 文件
 
-However, after comparing these `.bin` files with the locally cached `.xml` files, I surprisingly found that the data corresponding to the `.bin` and `.xml` files are exactly the same. That is, after downloading and extracting, it just renamed the `.bin` file directly to `.xml`. In fact, that `.xml` file is a sort of disguise; they are still unreadable binary files.
+然而对比了这个 bin 文件和本地缓存的 xml 文件之后，惊人地发现 bin 和 xml 的数据是对应着完全相同的，也就是他下载解压完，把 bin 文件直接重命名为 xml，事实上那个 xml 文件是某种伪装，他们依旧是不可读的二进制文件
 
-By the way, a key point: both files have "PatcherXML0" at the beginning. I'll explain what this is used for later.
+顺便提一个关键，两个文件的开头都有 “PatcherXML0” 后面会讲到这有什么用
 
 ### tValue
 
-`tValue=1776749845277`. First, looking at the log, this `tValue` field always appears at the end of the request link `https://yhcdn1.wmupd.com/clientRes/publish_PC/Version/Windows/config.xml`, and its value is not fixed.
+tValue=1776749845277 ，首先查看了日志，这个 tValue 字段每次都会出现在请求链接 https://yhcdn1.wmupd.com/clientRes/publish_PC/Version/Windows/config.xml 的后面，而且值并非固定
 
-I asked Gemini, and it immediately knew this is just a UTC timestamp. I checked `<https://www.utctime.net/utc-timestamp>` and it indeed currently starts with `17767...`, which, combined with the log time, confirms this theory.
+问了 Gemini，它一下就知道了这只是个 UTC 时间戳，查了一下 <https://www.utctime.net/utc-timestamp> 目前确实是 17767... 开头的，然后结合日志时间证实了这个观点
 
-I tested whether changing this value affects the requested content, and it seems it doesn't. That means it's currently irrelevant.
+测试了一下这个值改变对于请求内容是否有变化，貌似是没有的，那就是说它目前无关紧要
 
-Then, regarding the content returned by the link itself, the general structure is as follows:
+然后关于这个链接本身返回的内容，大致结构如下：
 ```xml
 <config>
 <AppVersion>0.0</AppVersion>
@@ -122,23 +119,23 @@ Then, regarding the content returned by the link itself, the general structure i
 </config>
 ```
 
-The versions and sizes of the game resources are known here, and `diffHash` and `listHash` are the hashes of the two files mentioned above.
+游戏资源的版本和大小在这里都知道了，然后 diffHash 和 listHash 就是上面提到的两个文件的 Hash
 
-### Resource Naming
+### 资源命名
 
-I have no development experience myself and had completely no idea what this mess was. I asked Gemini, and it directly told me this is `{First letter of Hash}/{Full MD5 Hash}.{Total file size}`. I didn't expect it to be named like this, but I tested downloading a file and it was indeed true. Therefore, the method to construct the direct resource links later is very simple. The key point remains how to get the list containing the file path/filename/MD5/file size (`ResList.xml`).
+我自己没有开发经验，完全不知道这堆乱七八糟是什么鬼，问了 Gemini，它直接告诉我这就是 {哈希首字母}/{完整MD5哈希}.{文件总大小} ，没想到是这样命名的，但是我测试下载了一个文件，的确如此，那么之后的资源直链拼接方式就非常简单了，关键点依旧落到了如何获得包含 文件路径/文件名/MD5/文件大小 的列表（ResList.xml）
 
 ### PatchSDK
 
-Look directly for whether this file exists:
+直接找有没有这个文件：
 ```bash
 fd -IH patchersdk
 PatcherSDK_x64.dll
 UserData/Patcher/PatcherSDK/
 ```
-It can be inferred that this `PatcherSDK_x64.dll` is the tool that appeared in the logs, used for downloading the game patch.
+可以推测这个 PatcherSDK_x64.dll 就是日志里出现的，用来下载游戏 patch 的工具
 
-Then check the contents under `UserData/Patcher/PatcherSDK/`
+然后检查 UserData/Patcher/PatcherSDK/ 下的内容
 ```bash
 tree UserData/Patcher/PatcherSDK/
 UserData/Patcher/PatcherSDK/
@@ -149,57 +146,57 @@ UserData/Patcher/PatcherSDK/
     ├── client.xml
     ├── lastdiff.xml
     ├── Res
-    │   └── Client
-    │       └── WindowsNoEditor
-    │           └── HT
-    │               ├── Binaries
-    │               │   └── Win64
-    │               │       ├── AntiCheatExpert
-    │               │       │   └── ACE-Base.dat
-    │               │       └── HTGameBase.dll.cb
-    │               └── Content
-    │                   ├── Movies
-    │                   │   └── FFMpeg_Mana
-    │                   │       ├── advert
-    │                   │       │   └── ...
-    │                   │       ├── Login2K-huanghun.usm
-    │                   │       ├── RoomInvite
-    │                   │       │   └── xiaozhi
-    │                   │       │       └── ...
-    │                   │       ├── Story
-    │                   │       │   └── ...
-    │                   │       └── Void
-    │                   │           └── ...
-    │                   └── PatchPaks
-    │                       └── ...
+    │   └── Client
+    │       └── WindowsNoEditor
+    │           └── HT
+    │               ├── Binaries
+    │               │   └── Win64
+    │               │       ├── AntiCheatExpert
+    │               │       │   └── ACE-Base.dat
+    │               │       └── HTGameBase.dll.cb
+    │               └── Content
+    │                   ├── Movies
+    │                   │   └── FFMpeg_Mana
+    │                   │       ├── advert
+    │                   │       │   └── ...
+    │                   │       ├── Login2K-huanghun.usm
+    │                   │       ├── RoomInvite
+    │                   │       │   └── xiaozhi
+    │                   │       │       └── ...
+    │                   │       ├── Story
+    │                   │       │   └── ...
+    │                   │       └── Void
+    │                   │           └── ...
+    │                   └── PatchPaks
+    │                       └── ...
     └── ResList.xml
 
 20 directories, 51 files
 ```
-It can be seen that `ResList.xml` and `lastdiff.xml`, the two things mentioned earlier, are both here. And what's inside `UserData/Patcher/PatcherSDK/tmp/Res/Client` is the cache during the download process. This confirms that PatcherSDK is used to fetch game resources, which requires focus in subsequent research.
+可以看出 `ResList.xml` 和 `lastdiff.xml` 这两个之前提到的东西都在这里，然后 `UserData/Patcher/PatcherSDK/tmp/Res/Client` 里的就是下载过程中的缓存了，这证实了 PatcherSDK 就是用来获取游戏资源的，后面需要重点研究
 
-## .dll Analysis
+## .dll 分析
 
-Now starting the analysis of `PatcherSDK_x64.dll`, using the free software [IDA Free](https://hex-rays.com/ida-free) developed by [hex-rays](https://hex-rays.com/).
+现在开始 PatcherSDK_x64.dll 的分析，使用了 [hey-rays](https://hex-rays.com/) 开发的免费软件 [IDA Free](https://hex-rays.com/ida-free)
 
-First load `PatcherSDK_x64.dll`. Since both `.bin` files that need to be unpacked have the string `PatcherXML0` at their headers, it's reasonable to deduce that the dll will read this string. So I directly tried to search for the String "PatcherXML0" in IDA.
+首先加载 PatcherSDK_x64.dll，由于需要解包的两个 bin 文件头部都有 PatcherXML0 的字符串，所以合理推测在 dll 中会读取这个字符串，所以直接尝试在 IDA 中搜索 String “PatcherXML0”
 ```plain
 .rdata:0000000180543E18 aPatchersdkRead db 'PatcherSDK::ReadProtectedFile',0
-.rdata:0000000180543E18                                          ; DATA XREF: sub_180138C40+8A↑o
-.rdata:0000000180543E18                                          ; sub_180138C40:loc_180138D20↑o ...
+.rdata:0000000180543E18                                         ; DATA XREF: sub_180138C40+8A↑o
+.rdata:0000000180543E18                                         ; sub_180138C40:loc_180138D20↑o ...
 .rdata:0000000180543E36                 align 20h
 .rdata:0000000180543E40 aCfgFileTooLarg db 'cfg file too large. not correct!',0
-.rdata:0000000180543E40                                          ; DATA XREF: sub_180138C40+D9↑o
+.rdata:0000000180543E40                                         ; DATA XREF: sub_180138C40+D9↑o
 .rdata:0000000180543E61                 align 8
 .rdata:0000000180543E68 aCanNotOpenEncr db 'can not open encrypted file.',0
-.rdata:0000000180543E68                                          ; DATA XREF: sub_180138C40+169↑o
+.rdata:0000000180543E68                                         ; DATA XREF: sub_180138C40+169↑o
 .rdata:0000000180543E85                 align 10h
 .rdata:0000000180543E90 aTheSizeNotMatc db 'the size not matched. %d %d',0
-.rdata:0000000180543E90                                          ; DATA XREF: sub_180138C40+345↑o
+.rdata:0000000180543E90                                         ; DATA XREF: sub_180138C40+345↑o
 ```
-This is written very clearly, showing the reading and error handling process of the `PatcherSDK::ReadProtectedFile` method, and the function called is `sub_180138C40`.
+这里写的非常清晰，展示了 `PatcherSDK::ReadProtectedFile` 方法的读取和错误处理过程，然后调用的函数是 `sub_180138C40`
 
-I tried to view the assembly code of `sub_180138C40`. Since it's not a language I like, I directly pressed F5 to decompile it into C pseudocode, as follows:
+尝试查看 `sub_180138C40` 的汇编代码，不是我喜欢的语言，直接 F5 反编译为 C 伪代码，如下：
 ```c
 __int64 __fastcall sub_180138C40(__int64 a1, const char *a2)
 {
@@ -362,19 +359,19 @@ LABEL_41:
   return a1;
 }
 ```
-Let's briefly analyze it:
-1. Read the file `a2`.
-2. `sub_18000ACD6(v24, Destination, 12)` reads the first 12 bytes of the file, which is `PatcherXML0\0` (`\0` is the string terminator).
-3. `sub_18000ACD6(v24, &v17, 4)` reads four bytes and stores them into `v17`.
-4. Payload `v6=v5-16LL`: The total file size minus the 12-byte header and the 4-byte variable leaves the encrypted data.
-5. `strcmp(Destination,"PatcherXML0") != 0` directly reads all content and passes it to `a1`, indicating that if the header lacks the `PatcherXML0` marker, it's treated as a normal unencrypted file.
-6. `strcpy((char *)pExceptionObject, "PatcherSDK")`, meaning the value of `pExceptionObject` is just the string `"PatcherSDK"`.
-7. `sub_180009ACF(Block, Src, &qword_180667C70, pExceptionObject)` is the decryption function.
-8. `sub_180006794` is highly likely decompressing? After decompression, it passes to `v18/v19`.
-9. `v19 != v17` check: if the final decrypted data `v19` does not equal `v17`, it passes `v19` to `a1`.
-10. Outputs `a1`, and destroys all intermediate resources.
+简单分析一下：
+1. 读取 `a2` 文件
+2. `sub_18000ACD6(v24, Destination, 12)` 读取文件前 12 个字节，就是 `PatcherXML0\0`（`\0` 是字符串结束符）
+3. `sub_18000ACD6(v24, &v17, 4)` 读取四个字节，存入 v17
+4. Payload `v6=v5-16LL` 总文件大小减去 12 字节头和 4 字节变量，剩下的是加密的数据
+5. `strcmp(Destination,"PatcherXML0") != 0` 直接读入全部内容并传给 `a1`，说明如果头部没有 `PatcherXML0` 标记就当作没有加密的普通文件
+6. `strcpy((char *)pExceptionObject, "PatcherSDK")`，也就是说 `pExceptionObject` 的值就是字符串 `"PatcherSDK"`
+7. `sub_180009ACF(Block, Src, &qword_180667C70, pExceptionObject)` 解密函数
+8. `sub_180006794` 大概率是在解压？解压完传给 `v18/v19`
+9. `v19 != v17` 检查，如果最终得到的解密数据 `v19` 和 `v17` 不相等，将 `v19` 传给 `a1`
+10. 输出 `a1`，并销毁所有中间资源
 
-Our need is to find the decryption method, so naturally, we need to look at the most important decryption function `sub_180009ACF`. OK, continue to open the assembly of the `sub_180009ACF` function and press F5 to decompile.
+我们的需求是要找到解密的方法，自然需要查看最重要的解密函数 `sub_180009ACF`，OK 继续打开 `sub_180009ACF` 函数汇编，F5 反编译
 ```c
 // attributes: thunk
 __int64 __fastcall sub_180009ACF(__int64 a1, __int64 a2, __int64 a3, __int64 a4)
@@ -382,7 +379,7 @@ __int64 __fastcall sub_180009ACF(__int64 a1, __int64 a2, __int64 a3, __int64 a4)
   return sub_1801E7F10(a1, a2, a3, a4);
 }
 ```
-It's a thunk function, the real decryption function is `sub_1801E7F10`. OK, decompile it.
+是个 thunk 函数，真正的解密函数是 `sub_1801E7F10`，OK，对其使用反编译
 ```c
 __int64 __fastcall sub_1801E7F10(__int64 a1, _QWORD *a2, void *a3, void *a4)
 {
@@ -548,17 +545,17 @@ __int64 __fastcall sub_1801E7F10(__int64 a1, _QWORD *a2, void *a3, void *a4)
   return a1;
 }
 ```
-Now the encryption algorithm is known, it's AES-128. The four variables are also clearly known:
-1. `a1`: Output decrypted text.
-2. `a2`: Input ciphertext.
-3. `a3`: Key.
-4. `a4`: IV.
+现在加密算法知道了，就是 AES-128，四个变量很显然也知道了
+1. `a1` 输出的解密文
+2. `a2` 输入的密文
+3. `a3` Key
+4. `a4` IV
 
-Earlier analysis of `sub_180138C40` mentioned that `pExceptionObject`/`a4` is actually the string `"PatcherSDK"`. Padding it with 0 to 16 bytes gives the IV value: `"PatcherSDK000000"`.
+前面分析 `sub_180138C40` 时提到 `pExceptionObject`/`a4` 其实就是字符串 `"PatcherSDK"`，使用 0 补全至 16 位，得到 IV 的值就是 `"PatcherSDK000000"`
 
-The goal now becomes very clear: to get the value of `a3`, which is the AES-Key.
+现在的目标就变得非常明确了，要得到 `a3` 的值，也就是 AES-Key
 
-`a3` is the `&qword_180667C70` passed to `sub_180009ACF` earlier. Attempting to find its cross-references:
+`a3` 也就是前面传给 `sub_180009ACF` 的 `&qword_180667C70` 尝试查找他的交叉引用：
 ```c
 void **__fastcall sub_18013F720(size_t *a1)
 {
@@ -576,40 +573,40 @@ void **__fastcall sub_18013F720(size_t *a1)
   return result;
 }
 ```
-This is the function where the Key value is written into `&qword_180667C70`, but it is not called anywhere in this dll. This must mean that it is called in the main program, which then passes the Key value in.
+这是 Key 值被写入 `&qword_180667C70` 的函数，但是该 dll 中没有任何地方调用了它，那必然是主程序里调用了他，然后把 Key 值传了进去
 
-That means I'd have to take the trouble to check the main program, and it's even possible that this value is not hardcoded in the main program but imported from somewhere else. I felt that looking for it directly would be too troublesome.
+那也就意味着还要去费劲检查主程序，甚至有可能这个值并非硬编码在主程序中而是从其他地方导入的，我感觉直接去查找太麻烦了
 
-However, in reality, the memory location of `&qword_180667C70` is already known; it's the base address of `PatcherSDK_x64.dll` + memory offset `667C70`. That actually means if I just run the main program and start the download, the string value of the Key we need will definitely be readable at this location `PatcherSDK_x64.dll+667C70`.
+然而事实上，`&qword_180667C70` 的内存位置是早就知道的，就是 `PatcherSDK_x64.dll` 的基址 + 内存偏移量 `667C70`，那其实只要运行一下主程序，跑一下下载，`PatcherSDK_x64.dll+667C70` 这个位置必然就能读取到我们需要的 Key 的字符串值了
 
-## Debugging
+## 调试
 
-Since the debugger [x64dbg](https://github.com/x64dbg/x64dbg) currently only supports Windows (according to the latest [Release Note](https://github.com/x64dbg/x64dbg/releases/tag/2026.04.20), "the first pre-alpha pieces of a Linux debugger based on the new `ElfBug` engine have been merged", meaning there is already a first version of experimental support for Linux, hopefully it will fully support Linux in the future), a Windows virtual machine needs to be installed. There are many methods; [winboat](https://github.com/TibixDev/winboat) and [winapps](https://github.com/winapps-org/winapps) are both good and convenient installation tools, or using qemu/kvm for a direct installation isn't difficult either. I won't go into details here.
+由于调试器 [x64dbg](https://github.com/x64dbg/x64dbg) 目前仅支持 Windows（据最新的 [Release Note](https://github.com/x64dbg/x64dbg/releases/tag/2026.04.20) 称，"the first pre-alpha pieces of a Linux debugger based on the new `ElfBug` engine have been merged"，也就是已经有对 Linux 的第一版实验性支持了，期待以后会完全支持 Linux），所以需要安装一个 Windows 虚拟机，方法很多，[winboat](https://github.com/TibixDev/winboat) 和 [winapps](https://github.com/winapps-org/winapps) 都是不错的便捷安装工具，或者使用 qemu/kvm 直接安装也并非难事，在此不赘述
 
-Start x64dbg, load the launcher main program `NTEGame.exe`, switch to the "Symbols" tab, and while pressing F9, observe if `PatcherSDK_x64.dll` gets loaded by the main program.
+启动 x64dbg，加载启动器主程序 NTEGame.exe，切换到“符号”选项卡，一边按 F9，一边观察 `PatcherSDK_x64.dll` 是否被主程序加载
 
-However, when the breakpoint reached the loading of `ntdll.dll`, the `NTEGame.exe` process crashed and a popup appeared: "Please close the debugger and try again".
+然而断点进行到加载 `ntdll.dll` 的时候，NTEGame.exe 进程崩溃并弹窗：“请关闭调试器后再试”
 
-This situation couldn't be more common. It indicates that when its launcher process loads `ntdll.dll`, it detects whether it is currently being debugged.
+这个情况再常见不过了，说明他的启动器进程加载 `ntdll.dll` 时会探测当前是否处于被调试的状态
 
-The solution is very simple; just bring out our anti-anti-debug plugin [ScyllaHide](https://github.com/x64dbg/ScyllaHide).
+解决方法很简单，只要请出我们的反反调试（anti-anti-debug）插件 [ScyllaHide](https://github.com/x64dbg/ScyllaHide)
 
-First, run the launcher program directly. Wait until it is fully loaded, use the Attach process feature of ScyllaHide, aim the crosshair at the `NTEGame.exe` window to get its process PID, then click Attach to load the process into x64dbg.
+首先直接运行启动器程序，等其完全加载后，使用 ScyllaHide 的 Attach process 功能，用十字准星瞄准 NTEGame.exe 的窗口，获取其进程的 PID，然后点击 Attach，将进程加载入 x64dbg 中
 
-Still looking at the "Symbols" tab first, `PatcherSDK_x64.dll` appeared, indicating that `PatcherSDK_x64.dll` was successfully loaded after the launcher was opened and fully loaded.
+依旧先看“符号”选项卡，`PatcherSDK_x64.dll` 出现了，说明启动器打开并完全加载好之后就成功加载了 `PatcherSDK_x64.dll`
 
-Go to the "Memory" window, press `Ctrl+G` to search for `PatcherSDK_x64.dll+667C70`, and jump to the memory location of `&qword_180667C70`. x64dbg has already automatically converted the hexadecimal to ASCII characters, displaying:
+转到“内存”窗口，`Ctrl+G` 搜索 `PatcherSDK_x64.dll+667C70`，跳转到 `&qword_180667C70` 的内存位置，x64dbg 已经自动将十六进制转成了 ASCII 字符，显示：
 ```plain
 1289@Patcher....
 ```
-A 12-character string. Padding it with 0 to 16 bytes, we get the final AES-Key as `1289@Patcher0000`.
+十二位的字符串，使用 0 补齐至 16 位，得到最终的 AES-Key 为 `1289@Patcher0000`
 
 > [!NOTE]
-> Updated on 2026-04-27, the AES-Key for the Global version is `3000001@Patcher0`, obtained using the exact same method.
+> 更新于 2026-04-27，国际服的 AES-Key 为 `3000001@Patcher0`，使用完全相同的方法获得
 
-## Testing
+## 测试
 
-So far, the AES-Key and AES-IV have been obtained through simple reverse engineering. Now its validity needs to be tested.
+目前已经通过简单的逆向得到了 AES-Key 和 AES-IV，现在需要测试其有效性
 ```python
 from Crypto.Cipher import AES
 
@@ -635,9 +632,9 @@ if __name__ == "__main__":
     unpack("ResList.bin")
     unpack("lastdiff.bin")
 ```
-Opening the decrypted files, it was all gibberish. Checking their file header hex values, they were all `789C`, which made me think it was highly likely that the file was first zlib compressed and then AES encrypted.
+打开解密的文件，全是乱码，检查其文件头的 hex 值，均是 `789C`，那我想大概率就是文件先 zlib 压缩了再 AES 加密的
 
-So, let's add a layer of decompression:
+那就再加一层解压：
 ```python
 import zlib
 from Crypto.Cipher import AES
@@ -667,7 +664,7 @@ if __name__ == "__main__":
     unpack("ResList.bin")
     unpack("lastdiff.bin")
 ```
-The previews of the two final `.xml` files obtained are as follows:
+得到的两个最终的 xml 文件的预览如下：
 ```xml
 <?xml version="1.0" ?>
 <PatchList>
@@ -682,8 +679,8 @@ The previews of the two final `.xml` files obtained are as follows:
 	<Res filename="..." filesize="..." md5="..."/>
 	...
 ```
-> PS: I couldn't help but laugh that the first file was CEF.
+> PS：第一个文件是 CEF 有点没绷住
 
-## Conclusion
+## 总结
 
-None (It feels so good not to be forced to write a conclusion).
+无（不用被强迫写总结的感觉真好）

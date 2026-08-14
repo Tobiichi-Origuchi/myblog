@@ -1,0 +1,61 @@
+theme = "monochrome"
+
+title = "Origuchi's Blog"
+base_url = "https://blog.origuchi.uk"
+description = "Origuchi's Blog"
+compile_sass = true
+minify_html = true
+build_search_index = false
+author = "Origuchi"
+generate_feeds = true
+feed_filenames = ["atom.xml", "rss.xml"]
+default_language = "zh-Hans"
+
+taxonomies = [{ name = "tags" }]
+
+[markdown]
+render_emoji = true
+external_links_class = "external-link"
+definition_list = true
+github_alerts = true
+lazy_async_image = true
+bottom_footnotes = true
+
+[markdown.highlighting]
+error_on_missing_language = true
+style = "class"
+light_theme = "github-light"
+dark_theme = "github-dark"
+
+[extra]
+i18n_path = "i18n/"
+enable_code_copy = true
+footer_copyright = "© $YEAR Monochrome"
+footer_show_powered = true
+footer_source_url = "https://github.com/Tobiichi-Origuchi/myblog"
+footer_socials = [
+  { platform = "GitHub", handle = "@Tobiichi-Origuchi", url = "https://github.com/Tobiichi-Origuchi", icon = "github" },
+]
+footer_show_timestamp = true
+timezone = "Asia/Shanghai"
+
+[extra.simple_icons]
+mode = "inline"
+provider = "jsdelivr"
+version = "v16"
+
+[extra.phosphor_icons]
+mode = "inline"
+provider = "jsdelivr"
+weight = "regular"
+version = "2"
+
+[extra.nav]
+home_url = "@/_index.md"
+links = [
+  { url = "@/_index.md", name = "首页" },
+  { url = "@/blog/_index.md", name = "文章", match_children = true },
+  { name = "更多", collapsed = true, category = [
+    { url = "tags", name = "标签", trailing_slash = true, match_children = true }
+  ] },
+]

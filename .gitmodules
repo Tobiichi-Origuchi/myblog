@@ -1,3 +1,3 @@
-[submodule "themes/ametrine"]
-	path = themes/ametrine
-	url = https://codeberg.org/daudix/ametrine.git
+[submodule "themes/monochrome"]
+	path = themes/monochrome
+	url = https://github.com/Tobiichi-Origuchi/monochrome
