@@ -36,6 +36,8 @@ footer_source_url = "https://github.com/Tobiichi-Origuchi/myblog"
 footer_socials = [
   { platform = "GitHub", handle = "@Tobiichi-Origuchi", url = "https://github.com/Tobiichi-Origuchi", icon = "github" },
 ]
+icp = "萌ICP备20268688号"
+icp_url = "https://icp.gov.moe/?keyword=20268688"
 footer_show_timestamp = true
 timezone = "Asia/Shanghai"
 
